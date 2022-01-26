@@ -7,7 +7,7 @@ import {AiOutlineHeart} from "react-icons/ai"
 import {BsSearch} from "react-icons/bs"
 import { NavLink } from "react-router-dom";
 
-function NavBtn({size}) {
+function NavBtn({size,setOpenCreateModal}) {
   return (
     <>
       <NavLink to="/">
@@ -18,9 +18,9 @@ function NavBtn({size}) {
         <FiSend size={size} />
       </NavLink>
 
-      <NavLink to="/">
+      <div onClick={()=> setOpenCreateModal(true)} className="cursor-pointer">
         <CgAddR size={size} />
-      </NavLink>
+      </div>
 
       <NavLink to="/">
         <ImCompass2 size={size} />

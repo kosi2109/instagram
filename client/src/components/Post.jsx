@@ -1,13 +1,15 @@
 import React from "react";
+import {Link} from "react-router-dom"
 import Sample from "../assets/sample.jpeg"
 import {BsThreeDots} from "react-icons/bs"
 import {FaRegComment} from "react-icons/fa"
 import {BiBookmark} from "react-icons/bi"
 import {FiSend} from "react-icons/fi"
 import {AiOutlineHeart} from "react-icons/ai"
+import moment from "moment"
 
 
-function Post() {
+function Post({post}) {
   return (
     <div className="flex flex-col justify-start w-full bg-secondary md:mb-5">
         {/* header */}
@@ -16,7 +18,9 @@ function Post() {
           <div className="w-10 h-10 bg-primary rounded-full mr-2">
 
           </div>
-          <h5>Name</h5>
+          <Link to={`/${post.posted_by.userName}`} >
+            <h5>{post.posted_by.userName}</h5>
+          </Link>
         </div>
         <div>
             <button>
@@ -27,7 +31,7 @@ function Post() {
       {/* end header */}
         {/* img */}
         <div>
-            <img src={Sample} alt="post-imge" />
+            <img src={post.images[0]} alt="post-imge" />
         </div>
       {/* end img */}
       <div className="flex flex-col justify-start items-start px-3">
@@ -43,9 +47,9 @@ function Post() {
           {/* like */}
             <h5>115 likes</h5>
           {/* name */}
-            <h5>Name</h5>
+            <h5>{post.posted_by.userName} {post.title}</h5>
             <p>View all 4 comments</p>
-            <p>23 MINUTE AGO</p>
+            <p>{moment(post.posted_date).startOf('hour').fromNow()}</p>
 
       </div>
     </div>
