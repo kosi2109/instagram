@@ -23,22 +23,36 @@ const login = async (req,res)=>{
 
 }
 
+const logout = async (req,res)=>{
+    
+    if (req.userId){
+        jwt.sign({
+            userId : req.userId
+        },"secret",{expiresIn:120})
+        return res.json("Log out complete")
+    }
+}
+
 const getUsers = async (req,res)=>{
     const users = await User.find({})
     return res.status(200).json(users)
 }
 
 const createUser = async (req,res)=>{
-    const {userName,email,fullName,password} = req.body
+    const {username,email,fullName,password} = req.body
+    
     try {
-        const user = new User({userName,email,fullName,password})
+        const existUser = await User.findOne({$or:[{email:email},{userName:username}]})
+        if (existUser) return res.status(409).json({error: "User already Exist"})
+
+        const user = new User({userName:username,email,fullName,password})
         await user.save()
         res.status(201).json(user)
     } catch (error) {
-        res.json(error.message)
+        res.status(400).json(error.message)
     }
 }
 
-module.exports = {getUsers,createUser,login}
+module.exports = {getUsers,createUser,login,logout}
 
 

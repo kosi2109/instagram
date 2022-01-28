@@ -11,6 +11,9 @@ module.exports = {
         200 : "200px",
         300 : "300px",
       },
+      border:{
+        1 : "1px"
+      },
       padding:{
         50 : "50px",
         100 : "100px",
@@ -42,8 +45,15 @@ module.exports = {
       }
     },
     colors:{
-      primary : "#EBEBEB",
-      secondary : "#FAFAFA"
+      primary : "#FAFAFA",
+      secondary : "#FFFFFF",
+      textPrimary : "#2A2A2A",
+      textSecondary : "#A4ABB2",
+      btnPrimary : "#0095F6",
+      btnSecondary : "#B2DFFC",
+      borderPrimary : "#DBDBDB",
+      borderActive : "#A8A8A8",
+      search : "#EFEFEF"
     }
   },
   plugins: [],

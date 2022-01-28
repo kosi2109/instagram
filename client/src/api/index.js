@@ -21,8 +21,8 @@ export const fetchProducts = () => API.get(`/posts`);
 
 // auth
 export const login = (formdata) => API.post(`/users/login`,formdata);
-
-
+export const logout = () => API.post(`/users/logout`);
+export const register = (formdata) => API.post(`/users/register`,formdata);
 
 
 
