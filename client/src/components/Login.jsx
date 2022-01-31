@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Logo from "../assets/logo.png"
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import { login } from '../actions/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillFacebook } from 'react-icons/ai';
@@ -8,6 +8,7 @@ import { AiFillFacebook } from 'react-icons/ai';
 const inputDiv =
   "mb-3 bg-search peer-focus:outline-borderActive flex w-full h-8 border rounded border-borderPrimary";
 const inputSty = "w-full h-full bg-search outline-none border-none peer px-2";
+
 function Login() {
   const [form, setForm] = useState({email:"",password:""});
   const dispatch = useDispatch()
@@ -24,7 +25,8 @@ function Login() {
     dispatch(login(form,navigate))
   }
 
-
+  const error = useSelector((state)=> state.error)
+  
   return (
   <div className='flex flex-col justify-start items-center mt-8'>
     <div className='pt-8 bg-secondary px-16 w-350 flex flex-col justify-start items-center mb-5 rounded border-2 border-borderPrimary' >
@@ -35,7 +37,8 @@ function Login() {
               type="text"
               name="email"
               placeholder="Email"
-              autoComplete="false"
+              required
+              autoComplete="off"
               className={inputSty}
               value={form.email}
               onChange={(e) => {
@@ -48,8 +51,8 @@ function Login() {
             <input
               type="password"
               name="password"
+              required
               placeholder="Password"
-              autoComplete="false"
               className={inputSty}
               value={form.password}
               onChange={(e) => {
@@ -75,6 +78,10 @@ function Login() {
           </span>
           Log in with Facebook
         </button>
+        {error && <div className='w-full text-center text-danger my-4 p-2'>
+          <p>{error}</p>
+        </div>}
+        
         <h6 className='text-center'>Forgot Password ?</h6>
       </div>
     </div>

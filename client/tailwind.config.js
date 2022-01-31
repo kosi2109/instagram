@@ -53,7 +53,8 @@ module.exports = {
       btnSecondary : "#B2DFFC",
       borderPrimary : "#DBDBDB",
       borderActive : "#A8A8A8",
-      search : "#EFEFEF"
+      search : "#EFEFEF",
+      danger : "#FF0000"
     }
   },
   plugins: [],

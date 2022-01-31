@@ -1,12 +1,13 @@
+import { REGISTER , LOGIN , LOGOUT } from "../constants";
+
 export default (state = {auth:null}, action)=>{
     switch (action.type){
-        case "REGISTER":
-            console.log(action.payload);
+        case REGISTER:
             return {...state,auth:action.payload}
-        case "LOGIN":
+        case LOGIN:
             localStorage.setItem("profile",JSON.stringify(action.payload))
             return {...state,auth:action.payload}
-        case "LOGOUT":
+        case LOGOUT:
             localStorage.removeItem("profile")
             return {...state,auth:null}
         default:
