@@ -28,7 +28,7 @@ function SignupSecondPage({ form , handleChange ,prePage, nextPage }) {
       <h5 className="text-center font-bold text-md py-2 text-textPrimary">Add Your Birthday</h5>
       <h6 className="text-center font-medium text-sm py-2 text-textPrimary">This won't be a part of your public profile.</h6>
         <div className="w-full py-3">
-            <input type="date" value={form.birthday} name="birthday" onChange={handleChange} className="w-full outline-borderActive border border-borderPrimary h-10" />
+            <input onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }} type="date" value={form.birthday} name="birthday" onChange={handleChange} className="w-full outline-borderActive border border-borderPrimary h-10" />
         </div>
       <h6 className="text-center font-medium text-xs py-2 text-textSecondary">You need to enter the date you were born</h6>
       <h6 className="text-center font-medium text-sm py-2 text-textSecondary">Use your own birthday, even if this account is for a business, a pet, or something else</h6>

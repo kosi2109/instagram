@@ -28,22 +28,6 @@ const userSchema = new mongoose.Schema({
         type : Date,
         default : Date.now()
     },
-    verified : {
-        type : {
-            verify_code : {
-                type : String,
-                unique : true
-            },
-            status : {
-                type : String,
-                enum : ['Pending','Active'],
-                default : 'Pending'
-            },
-            verified_at : {
-                type : Date
-            }
-        }
-    },
     birthday : {
         type : Date
     },

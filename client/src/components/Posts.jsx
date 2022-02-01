@@ -8,6 +8,11 @@ function Posts({posts}) {
     {posts.map((post)=>(
       <Post post={post} />
     ))}
+    <Post />
+    <Post />
+    <Post />
+    <Post />
+    <Post />
   </div>);
 }
 

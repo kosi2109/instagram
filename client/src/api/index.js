@@ -25,8 +25,8 @@ export const logout = () => API.post(`/users/logout`);
 export const register = (formdata) => API.post(`/users/register`,formdata);
 export const sendCode = (formdata) => API.post(`/users/sendCode`,formdata);
 export const check = (formdata) => API.post(`/users/check`,formdata);
-
-
+export const resetCodeSent = (email) => API.post(`/users/resetCode-sent`,{email});
+export const resetCodeComfirm = (form,token) => API.post(`/users/resetCode-verify/${token}`,form);
 
 
 

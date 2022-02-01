@@ -56,6 +56,8 @@ function SignupFirstPage({form,handleChange,nextPage}) {
     }
   };
 
+
+
   useEffect(() => {
     emailChecker();
     userNameChecker();
@@ -108,8 +110,8 @@ function SignupFirstPage({form,handleChange,nextPage}) {
             className={inputSty}
             value={form.email}
             placeholder="Email"
-            autoComplete="off"
             required
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
             onChange={(e) => {
               handleChange(e);
             }}
@@ -133,6 +135,7 @@ function SignupFirstPage({form,handleChange,nextPage}) {
             placeholder="Full Name"
             autoComplete="off"
             required
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
             value={form.fullName}
             onChange={handleChange}
           />
@@ -151,6 +154,7 @@ function SignupFirstPage({form,handleChange,nextPage}) {
             placeholder="Username"
             autoComplete="off"
             required
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
             value={form.username}
             onChange={(e) => {
               handleChange(e);
@@ -174,6 +178,7 @@ function SignupFirstPage({form,handleChange,nextPage}) {
             placeholder="Password"
             autoComplete="off"
             required
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
             value={form.password}
             onChange={handleChange}
           />

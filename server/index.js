@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -18,8 +19,8 @@ app.use("/posts",postRoute)
 
 
 
-const DATABASE = 'mongodb://localhost/instagram';
-const PORT = 8000 
+const DATABASE = process.env.DATABASE;
+const PORT = 8000 | process.env.PORT
 
 mongoose.connect(DATABASE,()=>{
     app.listen(PORT,()=>{

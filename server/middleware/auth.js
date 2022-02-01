@@ -6,7 +6,7 @@ const getDecode = async (req, res, next) => {
     return;
   }
   const token = req.headers.authorization.split(" ")[1];
-  return jwt.verify(token, "secret");
+  return jwt.verify(token, process.env.SECRET);
 };
 
 const auth = async (req, res, next) => {

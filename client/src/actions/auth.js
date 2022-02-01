@@ -41,6 +41,28 @@ export const login = (formData,navigate)=> async (dispatch) =>{
     }
 }
 
+export const resetCodeSent = (email,navigate)=> async (dispatch) =>{
+    
+    try {
+        await api.resetCodeSent(email);
+        navigate('/accounts/password/challenge')
+    } catch (error) {
+        dispatch({type : AUTH_ERR, payload: error.response.data.error})
+    }
+}
+
+export const resetCodeComfirm = (form,token,navigate)=> async (dispatch) =>{
+    
+    try {
+        const {data} = await api.resetCodeComfirm(form,token);
+        dispatch({type : LOGIN, payload: data})
+        navigate('/')
+    } catch (error) {
+        dispatch({type : AUTH_ERR, payload: error.response.data.error})
+    }
+}
+
+
 
 export const logout = (navigate)=> async (dispatch) =>{
     try {

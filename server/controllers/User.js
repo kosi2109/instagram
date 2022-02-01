@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const nodemailer = require("../nodemailer.config");
 const crypto = require("crypto");
+const secretkey = process.env.SECRET
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -18,9 +20,8 @@ const login = async (req, res) => {
     const token = jwt.sign(
       {
         userId: user._id,
-        status: user.verified.status,
       },
-      "secret"
+      secretkey
     );
 
     return res.status(201).json({
@@ -45,7 +46,7 @@ const logout = async (req, res) => {
       {
         userId: req.userId,
       },
-      "secret",
+      secretkey,
       { expiresIn: 120 }
     );
     return res.json("Log out complete");
@@ -62,8 +63,9 @@ const createUser = async (req, res) => {
 
   try {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ error: errors.errors[0].value });
     }
     const existUser = await User.findOne({
       $or: [{ email: email }, { userName: username }],
@@ -82,16 +84,14 @@ const createUser = async (req, res) => {
       email,
       fullName,
       password: hashedpsw,
-      verified: { verify_code: code, status: "Active" },
       birthday,
     });
     await user.save();
     const token = jwt.sign(
       {
         userId: user._id,
-        status: user.verified.status,
       },
-      "secret"
+      secretkey
     );
 
     return res.status(201).json({
@@ -106,6 +106,7 @@ const createUser = async (req, res) => {
 };
 
 const sentCode = async (req, res) => {
+  
   const { username, email } = req.body;
   const code = Math.floor(100000 + Math.random() * 900000);
   try {
@@ -116,7 +117,6 @@ const sentCode = async (req, res) => {
     const newCode = new Code({ email, code });
     await newCode.save();
     await nodemailer.sendConfirmationEmail(username, email, newCode.code);
-    console.log("hit");
     res.status(200);
   } catch (error) {
     res.status(500);
@@ -124,7 +124,7 @@ const sentCode = async (req, res) => {
 };
 
 const validChecker = async (req, res)=>{
-  const { username, email, password } = req.body
+  const { username, email } = req.body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: `${errors.errors[0]?.value} is invalid value .` });
@@ -138,19 +138,59 @@ const validChecker = async (req, res)=>{
   return res.status(200).json({success:true})
 }
 
-// const emailComfirm = async (req, res) => {
-//   const { token } = req.params;
-//   try {
-//     const user = await User.findById(req.userId);
-//     if (!user) return res.status(404).json({ error: "User Not Found" });
-//     if (token !== user.verified.verify_code) return res.status(404).json({ error: "Not valid" });
-//     user.verified.status = "Active";
-//     user.verified.verified_at = Date.now();
-//     await user.save();
-//     return res.status(200).json({ success: "Email Validation Success" });
-//   } catch (error) {
-//     return res.status(500).json({ error: error.message });
-//   }
-// };
+const passwordResetSent = async (req,res)=>{
+  const {email} = req.body
+  
+  const exist = await User.findOne({email:email})
+  if (!exist) return res.status(400).json({error : "User Not exists" })
+  const code = Math.floor(100000 + Math.random() * 900000);
 
-module.exports = { getUsers, createUser, login, logout, sentCode , validChecker };
+  const codeExist = await Code.findOne({email:email});
+    if (codeExist){
+      await codeExist.remove()
+    }
+
+  const newCode = new Code({ email, code });
+  await newCode.save();
+  const token = jwt.sign({
+    userId : exist._id,
+    code : code
+  },secretkey,{expiresIn : "1h"})
+  
+  nodemailer.sendPasswordCode(exist.username,email,token)
+  return res.status(201).json({success : "Passsword Reset Code sent . "})
+}
+
+const passwordResetVerify = async (req,res)=>{
+  
+  const { password } = req.body 
+  const {token} = req.params
+  const decode = await jwt.verify(token,secretkey)
+  const user = await User.findById(decode?.userId)
+
+  const userCode = await Code.findOne({email:user.email})
+  if (userCode.code != decode?.code){
+    return res.status(409).json({error : "You Are Not Authenticated ."})
+  }
+
+  const hashPassword = await bcrypt.hashSync(password,8)
+
+  user.password = hashPassword
+  await user.save()
+  const updateToken = jwt.sign(
+    {
+      userId: user._id,
+    },
+    secretkey
+  );
+
+  return res.status(201).json({
+    token:updateToken,
+    userName: user.userName,
+    email: user.email,
+    fullName: user.fullName,
+  });
+
+}
+
+module.exports = { getUsers, createUser, login, logout, sentCode , validChecker ,passwordResetSent , passwordResetVerify };

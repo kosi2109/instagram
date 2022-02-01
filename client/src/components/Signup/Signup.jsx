@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../actions/auth";
 import { clearError } from "../../actions/error";
+import FormContainer from "../FormContainer";
 import SignupFirstPage from "./SignupFirstPage";
 import SignupSecondPage from "./SignupSecondPage";
 import SignupThirdPage from "./SignupThirdPage";
@@ -44,25 +45,29 @@ function Signup() {
 
 
   const handleSubmit = (e) => {
+    console.log(e.target.keyCode);
     e.preventDefault();
     dispatch(register(form, navigate));
   };
 
-  const error = useSelector((state)=> state.error)
+ 
   return (
-    <div className="flex flex-col justify-start items-center mt-3 py-5">
-      <form onSubmit={handleSubmit} className="pt-8 bg-secondary px-10 w-350 flex flex-col justify-start items-center mb-5 rounded border-2 border-borderPrimary">
+    <div className="py-5"  >
+    <FormContainer>
+      <form onSubmit={(e)=> handleSubmit(e)} className="flex flex-col justify-start items-center mb-5 w-full">
         {page === 1 && <SignupFirstPage form={form} handleChange={handleChange} nextPage={nextPage} /> }
         {page === 2 && <SignupSecondPage  form={form} handleChange={handleChange} prePage={prePage} nextPage={nextPage} /> }
         {page === 3 && <SignupThirdPage form={form} handleChange={handleChange} prePage={prePage} nextPage={nextPage} /> }
       </form>
       
-      <div className="bg-secondary w-350 py-4 rounded border-2 border-borderPrimary">
+      
+    </FormContainer>
+    <div className="bg-secondary w-350 py-5 rounded border-2 border-borderPrimary mx-auto">
         <h5 className="text-center">
-          Have an account?{" "}
+          Have an account?
           <Link to="/accounts/login">
             <span className="text-btnPrimary font-light">Log in</span>
-          </Link>{" "}
+          </Link>
         </h5>
       </div>
     </div>

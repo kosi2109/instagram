@@ -81,10 +81,15 @@ function Login() {
         {error && <div className='w-full text-center text-danger my-4 p-2'>
           <p>{error}</p>
         </div>}
+        <div className='text-center'>
+        <Link to="/accounts/password/reset" className='text-center text-sm text-btnPrimary'>
+        Forgot Password ?
+        </Link>
+        </div>
         
-        <h6 className='text-center'>Forgot Password ?</h6>
+        
       </div>
-    </div>
+    </div>  
     <div>
 
     </div>
