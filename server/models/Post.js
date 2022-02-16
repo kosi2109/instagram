@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const postSchema  = mongoose.Schema({
     posted_by :{
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'Users'
+        ref : 'Users',
+        required:true
     },
     images : {
         type : [String],

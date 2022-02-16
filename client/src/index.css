@@ -6,3 +6,37 @@ body{
     background-color: rgb(240, 240, 240);
     color: #2A2A2A;
 }
+
+.control-arrow{
+    background-color: rgb(247, 247, 247) !important;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50% !important;
+    transform: translateY(-50%);
+    border-radius: 100%;
+}
+
+
+
+.control-prev{
+    left: 1rem !important;
+}
+
+.control-next{
+    right: 1rem !important;
+}
+
+.control-next::before{
+    border-left: 8px solid black !important;
+}
+
+.control-prev::before{
+    border-right: 8px solid black !important;
+}
+
+.dot.selected{
+    background-color: #0095F6 !important;
+}

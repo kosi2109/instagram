@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const MODAL_STYLES = {
@@ -6,9 +6,9 @@ const MODAL_STYLES = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: '#FFF',
     zIndex: 1000,
-    borderRadius : "20px"
+    pointerEvents : 'all',
+    overflowY: 'hidden'
 }
 
 const OVERLAY_STYLES = {
@@ -22,7 +22,8 @@ const OVERLAY_STYLES = {
    }
 
 function Modal({ children }) {
-    
+ 
+
   return ReactDOM.createPortal(
     <>
         <div style={OVERLAY_STYLES}>

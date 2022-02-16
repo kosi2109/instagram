@@ -2,6 +2,11 @@ import axio from "axios";
 
 const API = axio.create({baseURL : "http://localhost:8000/"})
 
+const config = {
+  headers: {
+      'content-type': 'multipart/form-data'
+  }
+};
 
 API.interceptors.request.use((req)=>{
     if (localStorage.getItem("profile")) {
@@ -16,7 +21,7 @@ API.interceptors.request.use((req)=>{
 
 // posts
 export const fetchProducts = () => API.get(`/posts`);
-
+export const createPost = (form) => API.post(`/posts`,form,config);
 
 
 // auth

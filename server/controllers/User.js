@@ -3,10 +3,9 @@ const Code = require("../models/Code");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
-const nodemailer = require("../nodemailer.config");
+const nodemailer = require("../config/nodemailer.config");
 const crypto = require("crypto");
-const secretkey = process.env.SECRET
-
+const secretkey = process.env.SECRET;
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -31,12 +30,10 @@ const login = async (req, res) => {
       fullName: user.fullName,
     });
   } else {
-    return res
-      .status(401)
-      .json({
-        error:
-          "Sorry, your password was incorrect. Please double-check your password.",
-      });
+    return res.status(401).json({
+      error:
+        "Sorry, your password was incorrect. Please double-check your password.",
+    });
   }
 };
 
@@ -72,7 +69,6 @@ const createUser = async (req, res) => {
     });
     if (existUser) return res.status(409).json({ error: "User already Exist" });
 
-
     const checkCodeMail = await Code.findOne({ email });
 
     if (checkCodeMail.code !== code)
@@ -106,13 +102,12 @@ const createUser = async (req, res) => {
 };
 
 const sentCode = async (req, res) => {
-  
   const { username, email } = req.body;
   const code = Math.floor(100000 + Math.random() * 900000);
   try {
-    const exist = await Code.findOne({email:email});
-    if (exist){
-      await exist.remove()
+    const exist = await Code.findOne({ email: email });
+    if (exist) {
+      await exist.remove();
     }
     const newCode = new Code({ email, code });
     await newCode.save();
@@ -123,60 +118,67 @@ const sentCode = async (req, res) => {
   }
 };
 
-const validChecker = async (req, res)=>{
-  const { username, email } = req.body
+const validChecker = async (req, res) => {
+  const { username, email } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ error: `${errors.errors[0]?.value} is invalid value .` });
+    return res
+      .status(400)
+      .json({ error: `${errors.errors[0]?.value} is invalid value .` });
   }
-  const existEmail = await User.findOne({userName:username});
+  const existEmail = await User.findOne({ userName: username });
 
-  if (existEmail) return res.status(409).json({ error: "Username already Exist" });
+  if (existEmail)
+    return res.status(409).json({ error: "Username already Exist" });
   const checkCodeMail = await User.findOne({ email });
-  if (checkCodeMail) return res.status(409).json({ error: "Email already Exist" });
+  if (checkCodeMail)
+    return res.status(409).json({ error: "Email already Exist" });
 
-  return res.status(200).json({success:true})
-}
+  return res.status(200).json({ success: true });
+};
 
-const passwordResetSent = async (req,res)=>{
-  const {email} = req.body
-  
-  const exist = await User.findOne({email:email})
-  if (!exist) return res.status(400).json({error : "User Not exists" })
+const passwordResetSent = async (req, res) => {
+  const { email } = req.body;
+
+  const exist = await User.findOne({ email: email });
+  if (!exist) return res.status(400).json({ error: "User Not exists" });
   const code = Math.floor(100000 + Math.random() * 900000);
 
-  const codeExist = await Code.findOne({email:email});
-    if (codeExist){
-      await codeExist.remove()
-    }
+  const codeExist = await Code.findOne({ email: email });
+  if (codeExist) {
+    await codeExist.remove();
+  }
 
   const newCode = new Code({ email, code });
   await newCode.save();
-  const token = jwt.sign({
-    userId : exist._id,
-    code : code
-  },secretkey,{expiresIn : "1h"})
-  
-  nodemailer.sendPasswordCode(exist.username,email,token)
-  return res.status(201).json({success : "Passsword Reset Code sent . "})
-}
+  const token = jwt.sign(
+    {
+      userId: exist._id,
+      code: code,
+    },
+    secretkey,
+    { expiresIn: "1h" }
+  );
 
-const passwordResetVerify = async (req,res)=>{
-  
-  const { password } = req.body 
-  const {token} = req.params
-  const decode = await jwt.verify(token,secretkey)
-  const user = await User.findById(decode?.userId)
+  nodemailer.sendPasswordCode(exist.username, email, token);
+  return res.status(201).json({ success: "Passsword Reset Code sent . " });
+};
 
-  const userCode = await Code.findOne({email:user.email})
-  if (userCode.code != decode?.code){
-    return res.status(409).json({error : "You Are Not Authenticated ."})
+const passwordResetVerify = async (req, res) => {
+  const { password } = req.body;
+  const { token } = req.params;
+  const decode = await jwt.verify(token, secretkey);
+  const user = await User.findById(decode?.userId);
+
+  const userCode = await Code.findOne({ email: user.email });
+  if (userCode.code != decode?.code) {
+    return res.status(409).json({ error: "You Are Not Authenticated ." });
   }
 
-  const hashPassword = await bcrypt.hashSync(password,8)
+  const hashPassword = await bcrypt.hashSync(password, 8);
 
-  user.password = hashPassword
-  await user.save()
+  user.password = hashPassword;
+  await user.save();
   const updateToken = jwt.sign(
     {
       userId: user._id,
@@ -185,12 +187,20 @@ const passwordResetVerify = async (req,res)=>{
   );
 
   return res.status(201).json({
-    token:updateToken,
+    token: updateToken,
     userName: user.userName,
     email: user.email,
     fullName: user.fullName,
   });
+};
 
-}
-
-module.exports = { getUsers, createUser, login, logout, sentCode , validChecker ,passwordResetSent , passwordResetVerify };
+module.exports = {
+  getUsers,
+  createUser,
+  login,
+  logout,
+  sentCode,
+  validChecker,
+  passwordResetSent,
+  passwordResetVerify,
+};

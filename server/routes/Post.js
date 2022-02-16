@@ -1,10 +1,11 @@
 const express = require("express");
 const { getPosts, createPost } = require("../controllers/Post");
 const router  = express.Router();
-const {validated} = require("../middleware/auth")
+const {auth,validated} = require('../middleware/auth')
+const upload = require("../config/multer")
 
-router.get('/',getPosts);
-router.post('/',createPost);
+router.get('/',auth,getPosts);
+router.post('/',auth,upload.array('images'),createPost);
 
 
 module.exports = router

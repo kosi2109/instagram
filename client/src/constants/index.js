@@ -1,3 +1,9 @@
+// post
+export const CREATE_POST = "CREATE_POST"
+
+
+
+// auth
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
 export const REGISTER = "REGISTER"

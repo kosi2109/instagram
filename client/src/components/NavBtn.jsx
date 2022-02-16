@@ -31,7 +31,9 @@ function NavBtn({size,setOpenCreateModal}) {
       </NavLink>
 
       <NavLink to="/">
-        <div className="w-8 h-8 bg-primary rounded-full"></div>
+        <div className="w-8 h-8 bg-primary rounded-full overflow-hidden">
+        <img src="https://picsum.photos/200/300" alt="user-image" className='w-full h-full' />
+        </div>
       </NavLink>
     </>
   );

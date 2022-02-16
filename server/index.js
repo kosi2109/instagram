@@ -6,9 +6,10 @@ const app = express()
 
 
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded());
+app.options('*', cors())
 
+//middleware
+app.use(express.json());
 //routes
 const userRoute = require("./routes/User")
 const postRoute = require("./routes/Post")
