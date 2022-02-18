@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sample from "../assets/sample.jpeg";
 import { BsThreeDots } from "react-icons/bs";
@@ -9,12 +9,17 @@ import { AiOutlineHeart } from "react-icons/ai";
 import moment from "moment";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import PostOption from "./PostOption";
+import hideScroll from "../utils/hideScroll";
 
 
 function Post({ post }) {
-  
+  const [openOption, setOpenOption] = useState(false)
+  hideScroll(openOption)
 
   return (
+    <>
+    {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={false} /> } 
     <div className="flex flex-col justify-start w-full bg-secondary md:mb-5 border border-borderPrimary rounded">
       {/* header */}
       <div className="flex justify-between items-center w-full h-16 px-3 py-2">
@@ -25,7 +30,7 @@ function Post({ post }) {
           </Link>
         </div>
         <div>
-          <button>
+          <button onClick={()=> setOpenOption(true)} >
             <BsThreeDots size={20} />
           </button>
         </div>
@@ -46,17 +51,17 @@ function Post({ post }) {
         {/* menu */}
         <div className="flex justify-between items-center py-4 w-full">
           <div>
-            <button className="mr-4">
+            <button className="mr-4 hover:opacity-50">
               <AiOutlineHeart size={25} />
             </button>
-            <button className="mr-4">
+            <button className="mr-4 hover:opacity-50">
               <FaRegComment size={25} />
             </button>
-            <button className="mr-4">
+            <button className="mr-4 hover:opacity-50">
               <FiSend size={25} />
             </button>
           </div>
-          <button>
+          <button className="hover:opacity-50">
             <BiBookmark size={25} />
           </button>
         </div>
@@ -70,6 +75,7 @@ function Post({ post }) {
         <p>{moment(post?.posted_date).startOf("hour").fromNow()}</p>
       </div>
     </div>
+    </>
   );
 }
 

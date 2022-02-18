@@ -6,18 +6,13 @@ import SearchResult from "./SearchResult";
 import CreatePost from "./CreatePost";
 import NavBtn from "./NavBtn";
 import { useEffect } from "react";
+import hideScroll from "../utils/hideScroll";
+
 
 function Header() {
   const [searchActive, setSearchActive] = useState(false);
   const [openCreateModal, setOpenCreateModal] = useState(false);
-
-  useEffect(() => {
-    if (openCreateModal) {
-      document.querySelector("body").style.overflow = "hidden";
-    } else {
-      document.querySelector("body").style.overflow = "auto";
-    }
-  }, [openCreateModal]);
+  hideScroll(openCreateModal)
 
   return (
     <>

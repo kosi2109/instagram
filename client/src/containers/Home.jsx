@@ -14,7 +14,7 @@ function Home() {
   const { posts } = useSelector((state) => state.posts);
 
   return (
-    <div className="bg-primary flex flex-row justify-between pt-16 md:pt-20 lg:px-150 md:px-100 xl:px-250">
+    <div className="flex flex-row justify-between">
       <div className="w-full lg:w-2/3 lg:mr-3">
         <div className="w-full">
           <Stories />

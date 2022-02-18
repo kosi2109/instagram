@@ -20,7 +20,8 @@ API.interceptors.request.use((req)=>{
 
 
 // posts
-export const fetchProducts = () => API.get(`/posts`);
+export const fetchAllPosts = () => API.get(`/posts`);
+export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const createPost = (form) => API.post(`/posts`,form,config);
 
 

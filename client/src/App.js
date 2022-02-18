@@ -1,34 +1,68 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Routes , Route, useNavigate, useLocation} from "react-router-dom";
-import { clearError } from './actions/error';
-import Login from './components/Login';
-import EmailSendMes from './components/PasswordReset/EmailSendMes';
-import EmailSentForm from './components/PasswordReset/EmailSentForm';
-import PasswordResetComfirm from './components/PasswordReset/PasswordResetComfirm';
-import Signup from './components/Signup/Signup';
-import Main from './containers/Main';
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+import { clearError } from "./actions/error";
+import Login from "./components/Login";
+import EmailSendMes from "./components/PasswordReset/EmailSendMes";
+import EmailSentForm from "./components/PasswordReset/EmailSentForm";
+import PasswordResetComfirm from "./components/PasswordReset/PasswordResetComfirm";
+import Signup from "./components/Signup/Signup";
+import Main from "./containers/Main";
+
+const ProtectedRoute = ({ children }) => {
+  const user = localStorage.getItem("profile");
+  if (!user) {
+    return <Navigate to="/accounts/login" replace />;
+  }
+
+  return children;
+};
+
+const PublicRoute = () => {
+  const user = localStorage.getItem("profile");
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
+};
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const location = useLocation();
+  useEffect(() => {
+    dispatch(clearError());
+  }, [location]);
 
-  const location = useLocation()
-    dispatch(clearError())
-  useEffect(()=>{
-
-  },[location])
-
-  return (    
-      <Routes>
-        <Route path="/accounts/login" element={<Login/>} />
-        <Route path="/accounts/emailsignup" element={<Signup/>} />
-        <Route path="/accounts/password/reset" element={<EmailSentForm/>} />
-        <Route path="/accounts/password/challenge" element={<EmailSendMes/>} />
-        <Route path="/accounts/password/reset/comfirm/:token" element={<PasswordResetComfirm/>} />
-        <Route path="/*" element={<Main/>} />
-      </Routes>
-    );
+  return (
+    <Routes>
+      <Route path="/accounts" element={<PublicRoute />}>
+        <Route path="login" element={<Login />} />
+        <Route path="emailsignup" element={<Signup />} />
+        <Route path="password/reset" element={<EmailSentForm />} />
+        <Route path="password/challenge" element={<EmailSendMes />} />
+        <Route
+          path="password/reset/comfirm/:token"
+          element={<PasswordResetComfirm />}
+        />
+      </Route>
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Main />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
 }
 
 export default App;
-
