@@ -1,6 +1,6 @@
 import axio from "axios";
 
-const API = axio.create({baseURL : "http://localhost:8000/"})
+const API = axio.create({baseURL : "/"})
 
 const config = {
   headers: {
