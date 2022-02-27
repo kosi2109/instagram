@@ -7,11 +7,11 @@ import Suggestion from "../components/Suggestion";
 
 function Home() {
   const dispatch = useDispatch();
+  const { posts , post } = useSelector((state) => state.posts);
   useEffect(() => {
     dispatch(getPosts());
-  }, []);
+  }, [post]);
 
-  const { posts } = useSelector((state) => state.posts);
 
   return (
     <div className="flex flex-row justify-between">

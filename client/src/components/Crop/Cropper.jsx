@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ImgCropper from "react-easy-crop";
 
 
-function Cropper({ image, imagesUrl, setImagesUrl, index, aspect }) {
+function Cropper({ image, imagesUrl, setImagesUrl, index, aspect , openCreate }) {
   const [crop, setCrop] = useState(imagesUrl[index].crop);
   const [zoom, setZoom] = useState(imagesUrl[index].zoom);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(

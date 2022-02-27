@@ -3,11 +3,12 @@ import { useOutsideAlerter } from "../utils/clickOutside";
 import Modal from "./Modal";
 import { MdPermMedia } from "react-icons/md";
 import CropContainer from "./Crop/CropContainer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../actions/post";
 import { useEffect } from "react";
+import { POST_CREATE_LOADING } from "../constants";
 
-function CreatePost({ setOpenCreateModal }) {
+function CreatePost({ openCreateModal,setOpenCreateModal }) {
   const dispatch = useDispatch();
   const [imagesUrl, setImagesUrl] = useState([]);
   const [croped, setCroped] = useState([]);
@@ -15,8 +16,9 @@ function CreatePost({ setOpenCreateModal }) {
   const inputRef = useRef(null);
   const [caption, setCaption] = useState("");
   const [cropOpen, setCropOpen] = useState(true);
+  const [posting, setPosting] = useState(false)
   useOutsideAlerter(createRef, setOpenCreateModal);
-
+  
   useEffect(() => {
     if (imagesUrl.length > 0) {
       setCropOpen(true);
@@ -35,13 +37,21 @@ function CreatePost({ setOpenCreateModal }) {
           url: URL.createObjectURL(e.target.files[i]),
           crop: { x: 0, y: 0 },
           zoom: 1,
-          croppedAreaPixels: null,
+          croppedAreaPixels: {width: 768, height: 768, x: 0, y: 0},
         });
       }
       setImagesUrl(images);
     }
   };
-
+  if(!openCreateModal){
+    clearForm()
+  }
+  const clearForm = () => {
+    setCroped([]);
+    setImagesUrl([]);
+    setCaption("");
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -50,11 +60,9 @@ function CreatePost({ setOpenCreateModal }) {
       formData.append("images", images[key]);
     }
     formData.append("caption", caption);
+    dispatch({type: POST_CREATE_LOADING})
     dispatch(createPost(formData));
-    setImagesUrl([]);
-    setCroped([]);
-    setCaption("");
-    setOpenCreateModal(false);
+    setPosting(true)
   };
 
   return (
@@ -65,7 +73,7 @@ function CreatePost({ setOpenCreateModal }) {
             className="flex flex-col bg-secondary w-400 h-450"
             ref={createRef}
           >
-            <div className="w-full border-2 border-secondary border-b-primary py-3">
+            <div className="w-full border-b border-b-borderPrimary py-3">
               <h1 className="text-center">Create New Post</h1>
             </div>
             <div className="flex-1 w-full flex flex-col items-center justify-center">
@@ -97,7 +105,9 @@ function CreatePost({ setOpenCreateModal }) {
             setCroped={setCroped}
             setCaption={setCaption}
             caption={caption}
-            setCropOpen={setCropOpen}
+            clearForm={clearForm}
+            posting={posting}
+            setOpenCreateModal={setOpenCreateModal}
           />
         )}
       </form>

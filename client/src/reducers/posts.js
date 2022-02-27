@@ -1,14 +1,21 @@
-import { CREATE_POST, FETCH_POST } from "../constants"
+import { CREATE_POST, END_LOADING, FETCH_POST, START_LOADING , POST_CREATE_LOADING ,POST_CREATE_FINISH } from "../constants"
 
-export default (state = {posts: []}, action) => {
-    switch (action.type){
+export default (state = {posts: [],loading:false}, action) => {
+    
+    switch (action.type){  
+        case START_LOADING:
+            return {...state,loading:true}
+        case END_LOADING:
+            return {...state,loading:false}
         case "FETCH_ALL":
             return {...state,posts:action.payload.posts}
         case FETCH_POST:
-            return {...state,post:action.payload}
+            return {...state,post:action.payload}   
         case CREATE_POST:
-            return {...state,post:action.payload}
+            
+            return {...state,post:action.payload,loading:false}
         default:
             return state
     }
+    
 }

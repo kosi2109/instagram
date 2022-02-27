@@ -47,7 +47,7 @@ function Header() {
         </div>
       </nav>
       {openCreateModal && (
-        <CreatePost setOpenCreateModal={setOpenCreateModal} />
+        <CreatePost openCreateModal={openCreateModal} setOpenCreateModal={setOpenCreateModal} />
       )}
     </>
   );

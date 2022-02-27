@@ -8,6 +8,7 @@ import CreateNewPost from "../CreateNewPost";
 import getCroppedImg from "../../utils/cropimage";
 import { useOutsideAlerter } from "../../utils/clickOutside";
 import { useRef } from "react";
+import { TailSpin } from "react-loader-spinner";
 
 const btnClass =
   "relative opacity-7 w-8 h-8 flex items-center justify-center rounded-full mr-4 bg-textPrimary hover:bg-textSecondary text-secondary hover:text-primary";
@@ -18,14 +19,16 @@ function CropContainer({
   croped,
   setCroped,
   setCaption,
-  caption,
-  setCropOpen,
+  setOpenCreateModal,
+  clearForm,
+  posting
 }) {
   const [aspect, setAspect] = useState(1);
   const [asceptOpen, setAsceptOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState(0);
   const [openCreate, setOpenCreate] = useState(false);
   const [discard, setDiscard] = useState(true);
+  const [cropLoading, setcropLoading] = useState(false);
   const cropRef = useRef(null);
   useOutsideAlerter(cropRef, setDiscard);
 
@@ -52,25 +55,28 @@ function CropContainer({
   };
 
   const makeCrop = async () => {
+    setcropLoading(true);
     const arr = [];
     for (let i = 0; i < imagesUrl.length; i++) {
       arr.push(await cropImage(i));
     }
+    setcropLoading(false);
     setCroped(arr);
+    setOpenCreate(true);
   };
 
-  const clearForm = () => {
-    setCroped([]);
-    setImagesUrl([]);
-    setCaption("");
-  };
+  
   return (
-    <>
+    <div>
       {openCreate ? (
         <CreateNewPost
           imagesUrl={croped}
           setOpenCreate={setOpenCreate}
           setCaption={setCaption}
+          clearForm={clearForm}
+          setDiscard={setDiscard}
+          setOpenCreateModal={setOpenCreateModal}
+          posting={posting}
         />
       ) : (
         <>
@@ -106,19 +112,17 @@ function CropContainer({
                   <GrFormPrevious />
                 </button>
               )}
-              <div className="flex justify-between px-4 py-3 items-center border-secondary border-b-primary">
-                <button type="button" onClick={() => setDiscard(true)}>
+              <div className="flex justify-between px-4 py-3 items-center border-b border-b-borderPrimary">
+                <button type="button" onClick={() => setDiscard(false)}>
                   Back
                 </button>
                 <h5>Crop</h5>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpenCreate(true);
-                    makeCrop();
-                  }}
-                >
-                  Next
+                <button type="button" onClick={makeCrop}>
+                  {cropLoading ? (
+                    <TailSpin height={30} width={30} color="blue" />
+                  ) : (
+                    "Next"
+                  )}
                 </button>
               </div>
               <div className="relative w-full h-full bg-secondary">
@@ -136,6 +140,7 @@ function CropContainer({
                           openCreate={openCreate}
                           setCroped={setCroped}
                           croped={croped}
+                          openCreate={openCreate}
                           className="w-auto h-full rounded-md"
                         />
                       )}
@@ -163,35 +168,35 @@ function CropContainer({
                   {selectedImg + 1}/{imagesUrl.length}
                 </h6>
               </div>
-              {!discard && (
-                <Modal>
-                  <div className="bg-secondary text-center flex flex-col w-350 rounded-md">
-                    <div className="py-10">
-                      <h4 className="font-bold text-lg">Discard Post?</h4>
-                      <h6 className="text-sm">
-                        If you leave, your edits won't be saved.
-                      </h6>
-                    </div>
-                    <button
-                      className="w-full h-12 border-t border-textSecondary text-danger"
-                      onClick={clearForm}
-                    >
-                      Discard
-                    </button>
-                    <button
-                      className="w-full h-12 border-t border-textSecondary"
-                      onClick={() => setDiscard(true)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </Modal>
-              )}
             </div>
           </div>
         </>
       )}
-    </>
+      {!discard && (
+        <Modal>
+          <div className="bg-secondary text-center flex flex-col w-350 rounded-md">
+            <div className="py-10">
+              <h4 className="font-bold text-lg">Discard Post?</h4>
+              <h6 className="text-sm">
+                If you leave, your edits won't be saved.
+              </h6>
+            </div>
+            <button
+              className="w-full h-12 border-t border-textSecondary text-danger"
+              onClick={clearForm}
+            >
+              Discard
+            </button>
+            <button
+              className="w-full h-12 border-t border-textSecondary"
+              onClick={() => setDiscard(true)}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal>
+      )}
+    </div>
   );
 }
 

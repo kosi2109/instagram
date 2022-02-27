@@ -38,7 +38,7 @@ function Post({ post }) {
       {/* end header */}
       {/* img */}
       
-        <Carousel showThumbs={false} showArrows={true} showIndicators={true} showStatus={false} >
+        <Carousel showThumbs={false} showArrows={true} showIndicators={post?.images.length > 1 ? true : false} showStatus={false} >
           {post?.images?.map((image) => (
             
               <img src={image} />

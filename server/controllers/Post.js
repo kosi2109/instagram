@@ -5,11 +5,12 @@ const getPosts = async (req, res) => {
   const posts = await Post.find({}).populate("posted_by", [
     "userName",
     "fullName",
-  ]).sort('-posted_date');
+  ]).sort({_id:-1});
   res.status(200).json(posts);
 };
 
 const createPost = async (req, res) => {
+  console.log("posting");
   try {
     const { caption } = req.body;
 
