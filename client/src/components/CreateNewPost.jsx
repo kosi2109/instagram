@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { useSelector } from "react-redux";
+import { useCheckAuth } from "../customHook/hooks";
 import { useOutsideAlerter } from "../utils/clickOutside";
 import CreateLoading from "./CreateLoading";
 
@@ -17,9 +18,7 @@ function CreateNewPost({
   setOpenCreateModal,
   posting
 }) {
-  const user =
-    localStorage.getItem("profile") &&
-    JSON.parse(localStorage.getItem("profile"));
+  const user = useCheckAuth()
   const [selectedImg, setSelectedImg] = useState(0);
   const newRef = useRef(null);
   useOutsideAlerter(newRef, setDiscard);

@@ -23,7 +23,7 @@ API.interceptors.request.use((req)=>{
 export const fetchAllPosts = () => API.get(`/posts`);
 export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const createPost = (form) => API.post(`/posts`,form,config);
-
+export const deletePost = (form) => API.post(`/posts/delete-post`,form);
 
 // auth
 export const login = (formdata) => API.post(`/users/login`,formdata);

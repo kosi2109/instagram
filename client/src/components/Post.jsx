@@ -11,15 +11,17 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import PostOption from "./PostOption";
 import hideScroll from "../utils/hideScroll";
+import { useCheckOwner } from "../customHook/hooks";
 
 
 function Post({ post }) {
   const [openOption, setOpenOption] = useState(false)
   hideScroll(openOption)
-
+  const isOwner = useCheckOwner(post?.posted_by.userName)
+  console.log(post);
   return (
     <>
-    {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={false} /> } 
+    {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={false} isOwner={isOwner} /> } 
     <div className="flex flex-col justify-start w-full bg-secondary md:mb-5 border border-borderPrimary rounded">
       {/* header */}
       <div className="flex justify-between items-center w-full h-16 px-3 py-2">
@@ -41,7 +43,7 @@ function Post({ post }) {
         <Carousel showThumbs={false} showArrows={true} showIndicators={post?.images.length > 1 ? true : false} showStatus={false} >
           {post?.images?.map((image) => (
             
-              <img src={image} />
+              <img src={image.url} />
             
           ))}
         </Carousel>

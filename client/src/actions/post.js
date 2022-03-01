@@ -1,5 +1,5 @@
 import * as api from "../api/index";
-import { CREATE_POST, END_LOADING, FETCH_POST, START_LOADING } from "../constants";
+import { CREATE_POST, DELETE_POST, END_LOADING, FETCH_POST, START_LOADING } from "../constants";
 
 
 export const getPosts = ()=> async (dispatch) =>{
@@ -34,4 +34,13 @@ export const getPost = (id)=> async (dispatch) =>{
     }
 }
 
+
+export const deletePost = (form)=> async (dispatch) =>{
+    try {
+        const {data} = await api.deletePost(form);
+        dispatch({type : DELETE_POST, payload: data})
+    } catch (error) {
+        console.log(error);
+    }
+}
 

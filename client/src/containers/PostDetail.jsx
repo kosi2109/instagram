@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import { getPost } from "../actions/post";
 import Sample from "../assets/sample.jpeg";
 import PostOption from "../components/PostOption";
+import { useCheckOwner } from "../customHook/hooks";
 import hideScroll from "../utils/hideScroll";
 
 function PostDetail() {
@@ -18,16 +19,17 @@ function PostDetail() {
   const [openOption, setOpenOption] = useState(false)
   const dispatch = useDispatch()
   hideScroll(false)
-
+  
   useEffect(()=>{
     dispatch(getPost(id))
   },[id])
-
+  
   const post = useSelector((state)=> state.posts.post) 
+  const isOwner = useCheckOwner(post?.posted_by.userName)
 
   return (
       <div className="bg-secondary flex w-full border border-borderPrimary">
-        {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={true} /> }
+        {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={true} isOwner={isOwner} /> }
         <div className="w-4/6 h-auto flex items-center justify-center">
         <Carousel showThumbs={false} showArrows={true} showIndicators={true} showStatus={false} >
           {post?.images?.map((image) => (

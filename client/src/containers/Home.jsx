@@ -7,10 +7,10 @@ import Suggestion from "../components/Suggestion";
 
 function Home() {
   const dispatch = useDispatch();
-  const { posts , post } = useSelector((state) => state.posts);
+  const { posts , post , success} = useSelector((state) => state.posts);
   useEffect(() => {
     dispatch(getPosts());
-  }, [post]);
+  }, [post , success]);
 
 
   return (

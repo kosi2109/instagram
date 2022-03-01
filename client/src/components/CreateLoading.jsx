@@ -1,9 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
 import { useRef } from "react";
 import { TailSpin } from "react-loader-spinner";
-import { useDispatch } from "react-redux";
-import { POST_CREATE_FINISH } from "../constants";
 import { useOutsideAlerter } from "../utils/clickOutside";
 
 function CreateLoading({loading,setOpenCreateModal}) {

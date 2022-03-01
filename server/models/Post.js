@@ -7,8 +7,16 @@ const postSchema  = mongoose.Schema({
         required:true
     },
     images : {
-        type : [String],
-        required : true
+        type : [{
+            url : {
+                type : String
+            },
+            public_id : {
+                type : String
+            }
+        }],
+        required : true,
+        default : []
     },
     title : {
         type : String,
