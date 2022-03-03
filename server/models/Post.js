@@ -30,7 +30,7 @@ const postSchema  = mongoose.Schema({
             {
                 liked_by : {
                     type:mongoose.Schema.Types.ObjectId,
-                    ref:'User'
+                    ref:'Users'
                 },
                 liked_date : {
                     type : Date,

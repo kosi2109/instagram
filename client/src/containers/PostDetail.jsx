@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiBookmark } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
@@ -8,35 +8,40 @@ import { FiSend, FiSmile } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 import { Link, useParams } from "react-router-dom";
-import { getPost } from "../actions/post";
-import Sample from "../assets/sample.jpeg";
+import { getPost, likePost } from "../actions/post";
 import PostOption from "../components/PostOption";
-import { useCheckOwner } from "../customHook/hooks";
+import { useCheckAuth, useCheckOwner, useLikeCheck } from "../customHook/hooks";
 import hideScroll from "../utils/hideScroll";
 
 function PostDetail() {
   const {id} = useParams()
   const [openOption, setOpenOption] = useState(false)
   const dispatch = useDispatch()
+  const user = useCheckAuth()
   hideScroll(false)
-  
-  useEffect(()=>{
-    dispatch(getPost(id))
-  },[id])
   
   const post = useSelector((state)=> state.posts.post) 
   const isOwner = useCheckOwner(post?.posted_by.userName)
+  const liked = useLikeCheck(post?.likes)
+
+  const likeController = ()=>{
+    dispatch(likePost({postId:post?._id}))
+  }
+
+  useEffect(()=>{
+    dispatch(getPost(id))
+  },[id,likeController])
 
   return (
       <div className="bg-secondary flex w-full border border-borderPrimary">
         {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={true} isOwner={isOwner} /> }
         <div className="w-4/6 h-auto flex items-center justify-center">
         <Carousel showThumbs={false} showArrows={true} showIndicators={true} showStatus={false} >
-          {post?.images?.map((image) => (
+        {post?.images?.map((image) => (
             
-              <img src={image} alt="image" className="w-full h-auto"/>
-            
-          ))}
+            <img src={image.url} />
+          
+        ))}
         </Carousel>
      
         </div>
@@ -78,8 +83,8 @@ function PostDetail() {
           
             <div className="flex justify-between items-center py-5 px-2 w-full">
               <div>
-                <button className="mr-4 hover:opacity-50">
-                  <AiOutlineHeart size={25} />
+                <button className="mr-4 hover:opacity-50" onClick={likeController}>
+                {liked ? <AiFillHeart size={25} color="red" /> : <AiOutlineHeart size={25} /> }
                 </button>
                 <button className="mr-4 hover:opacity-50">
                   <FaRegComment size={25} />
