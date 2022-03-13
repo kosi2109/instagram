@@ -102,4 +102,17 @@ const likeControl = async (req, res) => {
 
 
 
-module.exports = { getPosts, createPost, getPost, deletePost, likeControl };
+const commentController = async (req,res)=>{
+  const {id , comment } = req.body
+  try {
+    const post = await Post.findById(id)
+    post.comment.push({comment_by:req.userId,comment})
+    await post.save()
+    res.status(200).json({success : "commented" })
+  } catch (error) {
+    res.json({error: error.message})
+  }
+}
+
+
+module.exports = { getPosts, createPost, getPost, deletePost, likeControl , commentController };

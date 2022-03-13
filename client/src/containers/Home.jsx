@@ -4,6 +4,7 @@ import { getPosts } from "../actions/post";
 import Posts from "../components/Posts";
 import Stories from "../components/Stories";
 import Suggestion from "../components/Suggestion";
+import DetailPortal from "./DetailPortal";
 
 function Home() {
   const dispatch = useDispatch();

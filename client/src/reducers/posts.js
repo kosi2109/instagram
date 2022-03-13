@@ -1,4 +1,4 @@
-import { CREATE_POST, END_LOADING, FETCH_POST, START_LOADING, DELETE_POST, LIKE_POST } from "../constants"
+import { CREATE_POST, END_LOADING, FETCH_POST, START_LOADING, DELETE_POST, LIKE_POST, COMMENT_POST } from "../constants"
 
 export default (state = {posts: [],loading:false}, action) => {
     
@@ -16,8 +16,9 @@ export default (state = {posts: [],loading:false}, action) => {
         case CREATE_POST:
             return {...state,post:action.payload,loading:false}
         case LIKE_POST:
-
             return {...state,like:action.payload}
+        case COMMENT_POST:
+            return {...state,commented:action.payload}
         default:
             return state
     }

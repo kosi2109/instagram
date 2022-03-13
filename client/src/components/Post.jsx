@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { BiBookmark } from "react-icons/bi";
@@ -10,20 +10,18 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import PostOption from "./PostOption";
 import hideScroll from "../utils/hideScroll";
-import { useCheckOwner, useLikeCheck } from "../customHook/hooks";
+import { useCheckOwner, useControlLike, useLikeCheck } from "../customHook/hooks";
 import { useDispatch } from "react-redux";
 import { likePost } from "../actions/post";
 
 
 function Post({ post }) {
   const [openOption, setOpenOption] = useState(false)
+  const navigate = useNavigate();
   const dispatch = useDispatch()
-  const likedState = useLikeCheck(post.likes)
-  const [liked, setLiked] = useState(likedState)
   hideScroll(openOption)
   const isOwner = useCheckOwner(post?.posted_by.userName)
-  
-
+  const [liked,setLiked] = useControlLike(post)
   const likeController = ()=>{
     dispatch(likePost({postId:post?._id}))
   }
@@ -63,11 +61,11 @@ function Post({ post }) {
         {/* menu */}
         <div className="flex justify-between items-center py-4 w-full">
           <div>
-            <button className="mr-4 hover:opacity-50" onClick={()=> {likeController() ; setLiked(!liked)}}>
-              {liked ? <AiFillHeart size={25} color="red" /> : <AiOutlineHeart size={25} /> }
+            <button className="mr-4 hover:opacity-50" onClick={()=> {likeController();setLiked(!liked)}}>
+              {liked ? <AiFillHeart size={25} color="red" />  : <AiOutlineHeart size={25} /> }
               
             </button>
-            <button className="mr-4 hover:opacity-50">
+            <button onClick={() => navigate(`/p/${post._id}`)} className="mr-4 hover:opacity-50">
               <FaRegComment size={25} />
             </button>
             <button className="mr-4 hover:opacity-50">
