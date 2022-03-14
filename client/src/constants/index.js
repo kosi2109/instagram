@@ -4,6 +4,8 @@ export const FETCH_POST = "FETCH_POST"
 export const DELETE_POST = "DELETE_POST"
 export const LIKE_POST = "LIKE_POST"
 export const COMMENT_POST = "COMMENT_POST"
+export const COMMENT_DELETE = "COMMENT_DELETE"
+
 
 export const START_LOADING = "START_LOADING"
 export const POST_CREATE_LOADING = "POST_CREATE_LOADING"

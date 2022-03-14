@@ -26,6 +26,7 @@ export const createPost = (form) => API.post(`/posts`,form,config);
 export const deletePost = (form) => API.post(`/posts/delete-post`,form);
 export const likePost = (id) => API.post(`/posts/like`,id);
 export const commentPost = ({id,comment}) => API.post(`/posts/comment`,{id,comment});
+export const deleteComment = (id) => API.post(`/posts/comment/delete`,id);
 
 // auth
 export const login = (formdata) => API.post(`/users/login`,formdata);
