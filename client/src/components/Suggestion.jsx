@@ -1,19 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { logout } from "../actions/auth";
 import Friend from "./Friend";
 
 export default function Suggestion() {
-  const navigate = useNavigate();
   const user =
     localStorage.getItem("profile") &&
     JSON.parse(localStorage.getItem("profile"));
-  const dispatch = useDispatch();
-
-  const logoutHandler = () => {
-    dispatch(logout(navigate));
-  };
 
   return (
     <div
@@ -47,7 +38,6 @@ export default function Suggestion() {
         <Friend />
         <Friend />
         <Friend />
-        <button onClick={logoutHandler}>logout</button>
       </div>
     </div>
   );

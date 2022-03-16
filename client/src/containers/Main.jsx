@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./Home";
 import PostDetail from "./PostDetail";
 import NotFoundPage from "./NotFoundPage";
+import Profile from "./Profile";
 
 function Main() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function Main() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/p/:id" element={<PostDetail />} />
+          <Route path="/:user_id" element={<Profile />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </div>
