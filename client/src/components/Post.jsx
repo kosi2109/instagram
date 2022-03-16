@@ -10,7 +10,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import PostOption from "./PostOption";
 import hideScroll from "../utils/hideScroll";
-import { useCheckOwner, useControlLike, useLikeCheck } from "../customHook/hooks";
+import { useCheckOwner, useControlLike } from "../customHook/hooks";
 import { useDispatch } from "react-redux";
 import { likePost } from "../actions/post";
 

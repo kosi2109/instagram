@@ -3,7 +3,7 @@ import { useOutsideAlerter } from "../utils/clickOutside";
 import Modal from "./Modal";
 import { MdPermMedia } from "react-icons/md";
 import CropContainer from "./Crop/CropContainer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createPost } from "../actions/post";
 import { useEffect } from "react";
 import { POST_CREATE_LOADING } from "../constants";
