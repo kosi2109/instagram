@@ -19,3 +19,7 @@ export const REGISTER = "REGISTER"
 export const AUTH_ERR = "AUTH_ERR"
 export const CLR_ERR  = "CLR_ERR"
 export const CHECK_AUTH = "CHECK_AUTH"
+
+
+// user
+export const GET_USER_PROFILE = "GET_USER_PROFILE"

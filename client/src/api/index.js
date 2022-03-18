@@ -37,7 +37,8 @@ export const check = (formdata) => API.post(`/users/check`,formdata);
 export const resetCodeSent = (email) => API.post(`/users/resetCode-sent`,{email});
 export const resetCodeComfirm = (form,token) => API.post(`/users/resetCode-verify/${token}`,form);
 
-
+// user
+export const getProfile = (userName) => API.get(`/users/${userName}`);
 
 
 

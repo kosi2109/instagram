@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Post = require("../models/Post");
 const Code = require("../models/Code");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -194,6 +195,17 @@ const passwordResetVerify = async (req, res) => {
   });
 };
 
+const getUserProfile = async (req,res)=>{
+  const {userName} = req.params
+  try {
+    let user = await User.findOne({userName:userName}).select("-password")
+    const posts = await Post.find({posted_by:String(user._id)}).select("likes comment images")
+    res.status(200).json({user,posts})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getUsers,
   createUser,
@@ -203,4 +215,5 @@ module.exports = {
   validChecker,
   passwordResetSent,
   passwordResetVerify,
+  getUserProfile
 };

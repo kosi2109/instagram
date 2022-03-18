@@ -10,7 +10,6 @@ export function useOutsideAlerter(ref,state) {
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
                 state(false)
-                console.log(ref);
             }
         }
 

@@ -24,7 +24,7 @@ function Main() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/p/:id" element={<PostDetail />} />
-          <Route path="/:user_id" element={<Profile />} />
+          <Route path="/:userName" element={<Profile />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </div>
