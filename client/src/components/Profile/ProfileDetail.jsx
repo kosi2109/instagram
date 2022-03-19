@@ -7,7 +7,7 @@ function ProfileDetail({userName,fullName,posts,followers,followings}) {
     <div className='flex flex-col justify-between items-start py-7 w-3/6'>
         <div className='flex items-center justify-between w-2/3'>
             <h5 className='text-2xl font-300'>{userName}</h5>
-            <Link to="/" className='border border-borderPrimary p-1 rounded'>Edit Profile</Link>
+            <Link to="/accounts/edit" className='border border-borderPrimary p-1 rounded'>Edit Profile</Link>
             <Link to="/"><IoSettingsOutline size={25} /></Link>
         </div>
         <div className='flex w-full justify-start items-center'>

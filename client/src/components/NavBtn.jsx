@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { VscHome } from "react-icons/vsc";
+import {HiHome} from "react-icons/hi"
 import { FiSend } from "react-icons/fi";
 import { CgAddR } from "react-icons/cg";
 import { ImCompass2 } from "react-icons/im";
@@ -15,6 +16,7 @@ import { logout } from "../actions/auth";
 import { useOutsideAlerter } from "../utils/clickOutside";
 
 function NavBtn({ size, setOpenCreateModal }) {
+  const [nav, setNav] = useState("")
   const [openSetting, setOpenSetting] = useState(false);
   const settingRef = useRef(null)
   const navigate = useNavigate();
@@ -24,13 +26,22 @@ function NavBtn({ size, setOpenCreateModal }) {
   };
   useOutsideAlerter(settingRef,setOpenSetting)
 
+  useEffect(()=>{
+    setOpenSetting(false)
+  },[navigate])
+  
   const user =
     localStorage.getItem("profile") &&
     JSON.parse(localStorage.getItem("profile"));
+
+    
   return (
     <>
-      <NavLink to="/">
-        <VscHome size={size} />
+      <NavLink to="/" className="some" >
+        {({isActive})=> (
+          isActive ? <HiHome size={size}/> : <VscHome size={size}/>
+        )}
+        
       </NavLink>
 
       <NavLink to="/">
@@ -70,7 +81,7 @@ function NavBtn({ size, setOpenCreateModal }) {
             <BsBookmark className="mr-3" />
             Saved
           </Link>
-          <Link to="/" className="py-2 pl-3 flex items-center">
+          <Link to="/accounts/edit" className="py-2 pl-3 flex items-center">
             <IoSettingsOutline className="mr-3" />
             Settings
           </Link>

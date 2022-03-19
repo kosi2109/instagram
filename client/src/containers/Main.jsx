@@ -5,6 +5,7 @@ import Home from "./Home";
 import PostDetail from "./PostDetail";
 import NotFoundPage from "./NotFoundPage";
 import Profile from "./Profile";
+import Settings from "./Settings";
 
 function Main() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function Main() {
           <Route path="/" element={<Home />} />
           <Route path="/p/:id" element={<PostDetail />} />
           <Route path="/:userName" element={<Profile />} />
+          <Route path="/accounts/*" element={<Settings />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </div>
