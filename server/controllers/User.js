@@ -29,6 +29,8 @@ const login = async (req, res) => {
       userName: user.userName,
       email: user.email,
       fullName: user.fullName,
+      phone: user.phone,
+      gender: user.gender,
     });
   } else {
     return res.status(401).json({
@@ -195,16 +197,36 @@ const passwordResetVerify = async (req, res) => {
   });
 };
 
-const getUserProfile = async (req,res)=>{
-  const {userName} = req.params
+const getUserProfile = async (req, res) => {
+  const { userName } = req.params;
   try {
-    let user = await User.findOne({userName:userName}).select("-password")
-    const posts = await Post.find({posted_by:String(user._id)}).select("likes comment images")
-    res.status(200).json({user,posts})
+    let user = await User.findOne({ userName: userName }).select("-password");
+    const posts = await Post.find({ posted_by: String(user._id) }).select(
+      "likes comment images"
+    );
+    res.status(200).json({ user, posts });
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+const changeUserInfo = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.userId, req.body,{new:true});
+    user.save();
+    res
+      .status(201)
+      .json({
+        userName: user.userName,
+        email: user.email,
+        fullName: user.fullName,
+        phone: user.phone,
+        gender: user.gender,
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   getUsers,
@@ -215,5 +237,6 @@ module.exports = {
   validChecker,
   passwordResetSent,
   passwordResetVerify,
-  getUserProfile
+  getUserProfile,
+  changeUserInfo,
 };

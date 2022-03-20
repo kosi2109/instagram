@@ -8,7 +8,8 @@ const {
   validChecker,
   passwordResetSent,
   passwordResetVerify,
-  getUserProfile
+  getUserProfile,
+  changeUserInfo
 } = require("../controllers/User");
 const { body } = require("express-validator");
 const router = express.Router();
@@ -29,5 +30,6 @@ router.post("/logout", auth, logout);
 router.post("/sendCode", sentCode);
 router.post("/resetCode-sent", passwordResetSent);
 router.post("/resetCode-verify/:token", passwordResetVerify);
+router.patch("/change/user-info",auth,changeUserInfo);
 
 module.exports = router;

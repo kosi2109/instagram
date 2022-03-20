@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 
 export const useCheckAuth = () => {
-  const auth = localStorage.getItem("profile");
-  if (auth) {
-    return JSON.parse(auth);
-  } else {
-    return false;
-  }
+  const {user} = useSelector((state=> state.user))
+  const [profile, setProfile] = useState(null)
+  useEffect(()=>{
+    const auth = localStorage.getItem("profile");
+    if (auth) {
+      setProfile(JSON.parse(auth))
+    } else {
+      setProfile(false)
+    }
+  },[user])
+  return profile
 };
 
 export const useCheckOwner = (postBy) => {

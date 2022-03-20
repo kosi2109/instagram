@@ -1,4 +1,5 @@
 import React from 'react'
+import { useCheckAuth } from '../../customHook/hooks'
 import Container from './SettingComponent/Container'
 import LeftSide from './SettingComponent/LeftSide'
 import RightSide from './SettingComponent/RightSide'
@@ -6,6 +7,7 @@ import SettingDetail from './SettingDetail'
 
 function ChangePassword() {
     const inputStyle = "bg-primary border h-10 rounded-md border-borderPrimary w-5/6"
+    const user = useCheckAuth()
   return (
     <SettingDetail>
       <Container>
@@ -13,7 +15,7 @@ function ChangePassword() {
           <div className="w-12 h-12 rounded-full bg-danger"></div>
         </LeftSide>
         <RightSide>
-          <h4>Si Thu Htet</h4>
+          <h4>{user?.fullName}</h4>
         </RightSide>
       </Container>
 

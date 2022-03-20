@@ -23,3 +23,4 @@ export const CHECK_AUTH = "CHECK_AUTH"
 
 // user
 export const GET_USER_PROFILE = "GET_USER_PROFILE"
+export const EDIT_PROFILE = "EDIT_PROFILE"
