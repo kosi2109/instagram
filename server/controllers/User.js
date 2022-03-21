@@ -201,7 +201,7 @@ const getUserProfile = async (req, res) => {
   const { userName } = req.params;
   try {
     let user = await User.findOne({ userName: userName }).select("-password");
-    const posts = await Post.find({ posted_by: String(user._id) }).select(
+    const posts = await Post.find({ posted_by: user?._id }).select(
       "likes comment images"
     );
     res.status(200).json({ user, posts });
@@ -228,6 +228,36 @@ const changeUserInfo = async (req, res) => {
   }
 };
 
+
+const followControl = async (req, res) => {
+  const { userName } = req.body;
+  try {
+    const user = await User.findById(req.userId);
+    const otherUser = await User.findOne({userName})
+    const exist = user.followings.includes(otherUser._id);
+    
+    if (String(user._id) === String(otherUser._id)) { 
+      return res.status(401).json({error : "Can't follow yourself"}) 
+    }
+
+    if (exist) {
+      user.followings = user.followings.filter((e) => {e !== String(otherUser._id)});
+      otherUser.followers = otherUser.followers.filter((e) => {e !== String(user._id)});
+      await user.save();
+      await otherUser.save();
+      return res.status(200).json({ success: "Unfollowed" });
+    }
+    
+    otherUser.followers.push(user._id);
+    user.followings.push(otherUser._id);
+    await otherUser.save();
+    await user.save();
+    return res.status(200).json({ success: "followed" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getUsers,
   createUser,
@@ -239,4 +269,5 @@ module.exports = {
   passwordResetVerify,
   getUserProfile,
   changeUserInfo,
+  followControl
 };

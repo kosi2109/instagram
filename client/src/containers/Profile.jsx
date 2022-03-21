@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUserProfile } from "../actions/user";
+import { getOwnProfile, getUserProfile } from "../actions/user";
 import Category from "../components/Profile/Category";
 import PreviewCardContainer from "../components/Profile/PreviewCardContainer";
 import ProfileDetail from "../components/Profile/ProfileDetail";
@@ -11,12 +11,36 @@ import { useCheckAuth } from "../customHook/hooks";
 function Profile() {
   const { userName } = useParams();
   const dispatch = useDispatch();
+  const auth = JSON.parse(localStorage.getItem('profile'))
+  const { follow , user , posts , profile } = useSelector((state) => state.user);
+  const [checkFri, setCheckFri] = useState("")
 
   useEffect(() => {
     dispatch(getUserProfile(userName));
-  }, [userName]);
+    dispatch(getOwnProfile(auth?.userName));
+  }, [follow,userName]);
 
-  const { user, posts } = useSelector((state) => state.user);
+  useEffect(()=>{
+    checkFriended()
+  },[profile,user])
+
+  const checkFriended = ()=>{
+    const you_follow_me = profile?.followers?.includes(user._id)
+    const i_follow_you = profile?.followings?.includes(user._id)
+    if (you_follow_me){
+      if(i_follow_you){
+        setCheckFri("Friend")
+      }else{
+        setCheckFri("Follow Back")
+      }
+    }else{
+      if(i_follow_you){
+        setCheckFri("Unfollow")
+      }else{
+        setCheckFri("Follow")
+      }
+    }
+  }
 
   return (
     <div>
@@ -26,8 +50,9 @@ function Profile() {
           userName={user?.userName}
           fullName={user?.fullName}
           posts={posts?.length}
-          followers={user?.followers?.length}
-          followings={user?.followings?.length}
+          followers={user?.followers}
+          followings={user?.followings}
+          checkFri={checkFri}
         />
       </div>
 

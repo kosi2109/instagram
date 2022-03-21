@@ -18,7 +18,7 @@ export const useCheckAuth = () => {
 
 export const useCheckOwner = (postBy) => {
   const user = useCheckAuth();
-  if (user.userName === postBy) {
+  if (user?.userName === postBy) {
     return true;
   } else {
     return false;
@@ -37,7 +37,7 @@ export const useLikeCheck = (likes) => {
 export const useControlLike = (post) => {
   
   const user = useCheckAuth();
-  const originalLike = post?.likes?.some((e) => e.liked_by.userName === user.userName)
+  const originalLike = post?.likes?.some((e) => e.liked_by.userName === user?.userName)
   const [liked, setLiked] = useState(originalLike)
   useEffect(()=>{
     setLiked(originalLike)

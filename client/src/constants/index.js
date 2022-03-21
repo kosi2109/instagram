@@ -24,3 +24,5 @@ export const CHECK_AUTH = "CHECK_AUTH"
 // user
 export const GET_USER_PROFILE = "GET_USER_PROFILE"
 export const EDIT_PROFILE = "EDIT_PROFILE"
+export const GET_OWN_PROFILE = "GET_OWN_PROFILE"
+export const FOLLOW_CONTROl = "FOLLOW_CONTROl"

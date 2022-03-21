@@ -1,7 +1,11 @@
-import {GET_USER_PROFILE ,EDIT_PROFILE } from "../constants";
+import {GET_USER_PROFILE ,EDIT_PROFILE, GET_OWN_PROFILE, FOLLOW_CONTROl } from "../constants";
 
 export default (state = {user:null}, action)=>{
     switch (action.type){
+        case FOLLOW_CONTROl:   
+            return {...state,follow:action.payload}
+        case GET_OWN_PROFILE:   
+            return {...state,profile:action.payload.user}
         case GET_USER_PROFILE:
             return {...state,user:action.payload.user,posts:action.payload.posts}
         case EDIT_PROFILE:
