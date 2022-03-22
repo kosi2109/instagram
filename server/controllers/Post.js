@@ -4,7 +4,7 @@ const cloudinary = require("../config/cloudinary.config");
 
 const getPosts = async (req, res) => {
   const posts = await Post.find({})
-    .populate({ path: "posted_by", select: "userName fullName -_id" })
+    .populate({ path: "posted_by", select: "userName fullName profile -_id" })
     .populate({ path: "likes.liked_by", select: "userName fullName -_id" })
     .select(["-images.public_id", "-images._id"])
     .sort({ _id: -1 });

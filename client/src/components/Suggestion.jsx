@@ -14,11 +14,7 @@ export default function Suggestion() {
       <div className="flex justify-between items-center w-full py-3 ">
         <div className="flex">
           <div className="w-12 h-12 bg-primary rounded-full mr-2 overflow-hidden">
-            <img
-              src="https://picsum.photos/200/300"
-              alt="user-image"
-              className="w-full h-full"
-            />
+          <img src={user?.profile_url ? user?.profile_url : "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"} alt="profile image" className='w-full h-auto' />
           </div>
           <div className="flex flex-col justify-center items-start">
             <h5 className="font-bold">{user?.userName}</h5>

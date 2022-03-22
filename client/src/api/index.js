@@ -40,6 +40,8 @@ export const resetCodeComfirm = (form,token) => API.post(`/users/resetCode-verif
 // user
 export const getProfile = (userName) => API.get(`/users/${userName}`);
 export const changeUserInfo = (form) => API.patch(`/users/change/user-info`,form);
+export const changePassword = (form) => API.post(`/users/change/password`,form);
+export const changeProfileImage = (form) => API.post(`/users/change/profile-image`,form);
 
 // follow & following
 export const followerControl = (userName) => API.post(`/users/follow-control`,userName);

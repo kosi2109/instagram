@@ -1,12 +1,14 @@
-import { AUTH_ERR, CLR_ERR } from "../constants";
+import { ERROR, CLR_ERR, SUCCESS } from "../constants";
 
-export default (error=null, action)=>{
+export default (state={error:null,success:null}, action)=>{
     switch (action.type){
-        case AUTH_ERR:
-            return action.payload
+        case SUCCESS:
+            return {...state,success:action.payload.success}
+        case ERROR:
+            return {...state,error:action.payload}
         case CLR_ERR:
-            return null
+            return {error:null,success:null}
         default:
-            return error
+            return state
     }
 }

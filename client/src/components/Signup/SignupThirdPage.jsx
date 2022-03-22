@@ -9,7 +9,7 @@ const inputDiv =
 function SignupSecondPage({ form, handleChange, prePage }) {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.error);
+  const {error} = useSelector((state) => state.error);
 
   const sentMail = () => {
     const formData = { username: form.username, email: form.email };

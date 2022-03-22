@@ -10,11 +10,14 @@ const {
   passwordResetVerify,
   getUserProfile,
   changeUserInfo,
-  followControl
+  followControl,
+  changePassword,
+  uploadProfile
 } = require("../controllers/User");
 const { body } = require("express-validator");
 const router = express.Router();
 const { auth, validated } = require("../middleware/auth");
+const upload = require("../config/multer");
 
 
 // router.get("/", getUsers);
@@ -38,7 +41,8 @@ router.post("/resetCode-verify/:token", passwordResetVerify);
 
 // edit profile
 router.patch("/change/user-info",auth,changeUserInfo);
-
+router.post("/change/password",auth,changePassword);
+router.post('/change/profile-image',auth,upload.single('profile'),uploadProfile);
 
 // follower and following
 router.post("/follow-control",auth,followControl);

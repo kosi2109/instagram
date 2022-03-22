@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./Home";
@@ -7,17 +7,9 @@ import NotFoundPage from "./NotFoundPage";
 import Profile from "./Profile";
 import Settings from "./Settings";
 
-function Main() {
-  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const logined = localStorage.getItem("profile");
-  //   if (!logined) {
-  //     return navigate("/accounts/login");
-  //   } else {
-  //     return navigate("/");
-  //   }
-  // }, []);
+function Main() {
+
   return (
     <>
       <Header />
@@ -29,6 +21,7 @@ function Main() {
           <Route path="/accounts/*" element={<Settings />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
+        
       </div>
     </>
   );

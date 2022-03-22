@@ -25,7 +25,7 @@ function Login() {
     dispatch(login(form, navigate));
   };
 
-  const error = useSelector((state) => state.error);
+  const {error} = useSelector((state) => state.error);
 
   return (
     <div className="flex flex-col justify-start items-center mt-8">

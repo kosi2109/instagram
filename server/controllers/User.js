@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const nodemailer = require("../config/nodemailer.config");
 const crypto = require("crypto");
+const cloudinary = require("../config/cloudinary.config");
 const secretkey = process.env.SECRET;
 
 const login = async (req, res) => {
@@ -31,6 +32,7 @@ const login = async (req, res) => {
       fullName: user.fullName,
       phone: user.phone,
       gender: user.gender,
+      profile_url : user.profile.url
     });
   } else {
     return res.status(401).json({
@@ -258,6 +260,44 @@ const followControl = async (req, res) => {
   }
 };
 
+const changePassword = async (req,res)=>{
+  const {old_password , new_password , comfirm_password} = req.body;
+  try {
+    if(old_password === "" || new_password === "" || comfirm_password === "" ) return res.json({error : "All Field are required" })
+    const user = await User.findById(req.userId)
+
+    const true_password = await bcrypt.compareSync(old_password,user.password)
+    if(!true_password) return res.status(401).json({error: "Your old password was entered incorrectly. Please enter it again."})
+
+    if (new_password !== comfirm_password) return res.status(401).json({error: "Please make sure both passwords match."})
+
+    if (old_password === new_password) return res.status(401).json({error: "Create a new password that isn't your current password."})
+
+    user.password = await bcrypt.hashSync(new_password,8)
+    user.save()
+    return res.status(201).json({success : "Password changed."})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const uploadProfile = async (req,res)=>{
+  try {
+    const folder = `instragam_clone/${req.userId}/profile-image`;
+    let { public_id, url } =await cloudinary.uploader.upload(
+      req.file.path,
+      { folder: folder }
+    );
+
+    const user = await User.findById(req.userId)
+    user.profile = {public_id, url}
+    user.save()
+    return res.json({success : "Profile Image Changed ."})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getUsers,
   createUser,
@@ -269,5 +309,7 @@ module.exports = {
   passwordResetVerify,
   getUserProfile,
   changeUserInfo,
-  followControl
+  followControl,
+  changePassword,
+  uploadProfile
 };

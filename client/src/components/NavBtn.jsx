@@ -75,7 +75,7 @@ function NavBtn({ size, setOpenCreateModal }) {
             }
           >
             <img
-              src="https://picsum.photos/200/300"
+              src={user?.profile_url}
               alt="user-image"
               className="w-full h-full rounded-full"
             />

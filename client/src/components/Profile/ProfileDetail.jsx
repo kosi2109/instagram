@@ -10,14 +10,13 @@ function ProfileDetail({userName,fullName,posts,followers,followings,checkFri}) 
   const user = useCheckAuth()
   const dispatch = useDispatch()
   
-
   const followerControlHandaler = ()=>{
     dispatch(followerControl({userName}))
   }
   
   return (
-    <div className='flex flex-col justify-between items-start py-7 w-3/6'>
-        <div className='flex items-center justify-start w-2/3'>
+    <div className='flex flex-col justify-between items-start py-7 w-3/6 '>
+        <div className='flex items-center justify-start w-full'>
             <h5 className='text-2xl font-300 mr-12'>{userName}</h5>
             {user?.userName === userName ?
             <>

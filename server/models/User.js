@@ -12,6 +12,16 @@ const userSchema = new mongoose.Schema({
         required : true,
         unique : true
     },
+    profile : {
+        type : {
+            url : {
+                type : String
+            },
+            public_id : {
+                type : String
+            }
+        },
+    },
     phone : {
         type : String,
         required : true,

@@ -6,7 +6,7 @@ import Category from "../components/Profile/Category";
 import PreviewCardContainer from "../components/Profile/PreviewCardContainer";
 import ProfileDetail from "../components/Profile/ProfileDetail";
 import ProfilePic from "../components/Profile/ProfilePic";
-import { useCheckAuth } from "../customHook/hooks";
+
 
 function Profile() {
   const { userName } = useParams();
@@ -45,7 +45,7 @@ function Profile() {
   return (
     <div>
       <div className="flex h-200">
-        <ProfilePic />
+        <ProfilePic profile={user?.profile?.url} />
         <ProfileDetail
           userName={user?.userName}
           fullName={user?.fullName}
