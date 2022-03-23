@@ -9,13 +9,19 @@ import Settings from "./Settings";
 
 
 function Main() {
+ 
+
+  
+  
+ 
+ 
 
   return (
-    <>
+    <div>
       <Header />
-      <div className="bg-primary pt-16 pb-4 md:pt-20 lg:px-150 md:px-100 xl:px-250" style={{minHeight:"100vh"}}>
+      <div className="bg-primary pt-16 pb-4 md:pt-20 lg:px-150 md:px-100 xl:px-250">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home  />} />
           <Route path="/p/:id" element={<PostDetail />} />
           <Route path="/:userName" element={<Profile />} />
           <Route path="/accounts/*" element={<Settings />} />
@@ -23,7 +29,7 @@ function Main() {
         </Routes>
         
       </div>
-    </>
+    </div>
   );
 }
 

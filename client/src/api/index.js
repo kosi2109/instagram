@@ -20,8 +20,8 @@ API.interceptors.request.use((req)=>{
 
 
 // posts
-export const fetchAllPosts = () => API.get(`/posts`);
-export const fetchPost = (id) => API.get(`/posts/${id}`);
+export const fetchAllPosts = (page) => API.get(`/posts/?page=${page}`);
+export const fetchPost = (id) => API.get(`/posts/show/${id}`);
 export const createPost = (form) => API.post(`/posts`,form,config);
 export const deletePost = (form) => API.post(`/posts/delete-post`,form);
 export const likePost = (id) => API.post(`/posts/like`,id);

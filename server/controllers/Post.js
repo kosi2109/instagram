@@ -3,12 +3,26 @@ const User = require("../models/User");
 const cloudinary = require("../config/cloudinary.config");
 
 const getPosts = async (req, res) => {
-  const posts = await Post.find({})
-    .populate({ path: "posted_by", select: "userName fullName profile -_id" })
-    .populate({ path: "likes.liked_by", select: "userName fullName -_id" })
-    .select(["-images.public_id", "-images._id"])
-    .sort({ _id: -1 });
-  res.status(200).json(posts);
+  const { page } = req.query;
+  console.log(page);
+  const LIMIT = 1
+  const start_index = ( Number(page) - 1) * LIMIT
+  try {
+    const {followings} = await User.findById(req.userId).select("followings -_id")
+    followings.push(req.userId)
+    const total = await Post.countDocuments({'posted_by':{ "$in" : followings}});
+
+    const posts = await Post.find({'posted_by':{ "$in" : followings}})
+      .populate({ path: "posted_by", select: "userName fullName profile -_id" })
+      .populate({ path: "likes.liked_by", select: "userName fullName -_id" })
+      .select(["-images.public_id", "-images._id"])
+      .sort({ _id: -1 }).limit(LIMIT).skip(start_index);
+    const pages = Math.ceil(total / LIMIT)
+    
+    res.status(200).json({posts,pages,current_page:page});
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const createPost = async (req, res) => {

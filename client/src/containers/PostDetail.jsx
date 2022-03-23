@@ -19,12 +19,12 @@ function PostDetail({ width = "full" }) {
   const dispatch = useDispatch();
   hideScroll(openOption);
 
-  const { post, commented } = useSelector((state) => state.posts);
+  const { post, commented , like } = useSelector((state) => state.posts);
   const isOwner = useCheckOwner(post?.posted_by.userName);
 
   useEffect(() => {
     dispatch(getPost(id));
-  }, [id, commented]);
+  }, [id, commented , like]);
 
   return (
     <div className={`bg-secondary flex w-${width} border border-borderPrimary`}>

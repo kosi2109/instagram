@@ -2,11 +2,12 @@ import * as api from "../api/index";
 import { COMMENT_DELETE, COMMENT_POST, CREATE_POST, DELETE_POST, END_LOADING, FETCH_POST, LIKE_POST, START_LOADING } from "../constants";
 
 
-export const getPosts = ()=> async (dispatch) =>{
+export const getPosts = ({page})=> async (dispatch) =>{
+  
     try {
         dispatch({type: START_LOADING})
-        const {data} = await api.fetchAllPosts();
-        dispatch({type : "FETCH_ALL", payload: {posts:data}})
+        const {data} = await api.fetchAllPosts(page);
+        dispatch({type : "FETCH_ALL", payload: data})
         dispatch({type: END_LOADING})
     } catch (error) {
         console.log(error);

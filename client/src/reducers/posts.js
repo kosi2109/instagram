@@ -1,6 +1,6 @@
 import { CREATE_POST, END_LOADING, FETCH_POST, START_LOADING, DELETE_POST, LIKE_POST, COMMENT_POST, COMMENT_DELETE } from "../constants"
 
-export default (state = {posts: [],loading:false}, action) => {
+export default (state = {posts: [],loading:false,current_page:1,pages:1}, action) => {
     
     switch (action.type){  
         case START_LOADING:
@@ -8,7 +8,9 @@ export default (state = {posts: [],loading:false}, action) => {
         case END_LOADING:
             return {...state,loading:false}
         case "FETCH_ALL":
-            return {...state,posts:action.payload.posts}
+            const newPost = [...state.posts,...action.payload.posts]
+            console.log(newPost);
+            return {...state,posts:newPost,pages:action.payload.pages,current_page:action.payload.current_page}
         case DELETE_POST:
             return {...state,success:action.payload} 
         case FETCH_POST:

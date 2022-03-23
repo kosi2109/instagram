@@ -44,3 +44,17 @@ export const useControlLike = (post) => {
   },[post])
   return [liked,setLiked]
 };
+
+
+export const useScrollPageController = (pages)=>{
+  const [currentPage,setCurrentPage] = useState(1)
+  window.onscroll = ()=>{
+
+    if(window.innerHeight + window.scrollY == document.body.offsetHeight){
+      if (currentPage < pages){
+        setCurrentPage(currentPage+1)
+      }
+    }
+  }
+  return [currentPage]
+}
