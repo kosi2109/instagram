@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
@@ -10,18 +10,19 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import PostOption from "./PostOption";
 import hideScroll from "../utils/hideScroll";
-import { useCheckOwner, useControlLike } from "../customHook/hooks";
-import { useDispatch } from "react-redux";
+import { useCheckAuth, useCheckOwner, useControlLike } from "../customHook/hooks";
+import { useDispatch, useSelector } from "react-redux";
 import { likePost } from "../actions/post";
 
 
 function Post({ post }) {
+  const user = useCheckAuth();
   const [openOption, setOpenOption] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch()
   hideScroll(openOption)
   const isOwner = useCheckOwner(post?.posted_by.userName)
-  const [liked,setLiked] = useControlLike(post)
+  const [liked,setLiked] = useState(post?.liked)
   const likeController = ()=>{
     dispatch(likePost({postId:post?._id}))
   }
@@ -63,7 +64,7 @@ function Post({ post }) {
         {/* menu */}
         <div className="flex justify-between items-center py-4 w-full">
           <div>
-            <button className="mr-4 hover:opacity-50" onClick={()=> {likeController();setLiked(!liked)}}>
+            <button className="mr-4 hover:opacity-50" onClick={()=>{likeController();setLiked(!liked)}}>
               {liked ? <AiFillHeart size={25} color="red" />  : <AiOutlineHeart size={25} /> }
               
             </button>
@@ -79,7 +80,7 @@ function Post({ post }) {
           </button>
         </div>
         {/* like */}
-        <h5>{post.likes.length} {post.likes.length > 1 ? 'likes' : 'Like'} </h5>
+        <h5> {post.likes.length} {post.likes.length > 1 ? 'likes' : 'Like'} </h5>
         {/* name */}
         <h5>
           {post?.posted_by.userName} {post?.title}

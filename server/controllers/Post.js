@@ -4,7 +4,6 @@ const cloudinary = require("../config/cloudinary.config");
 
 const getPosts = async (req, res) => {
   const { page } = req.query;
-  console.log(page);
   const LIMIT = 1
   const start_index = ( Number(page) - 1) * LIMIT
   try {
@@ -12,13 +11,19 @@ const getPosts = async (req, res) => {
     followings.push(req.userId)
     const total = await Post.countDocuments({'posted_by':{ "$in" : followings}});
 
-    const posts = await Post.find({'posted_by':{ "$in" : followings}})
+    let posts = await Post.find({'posted_by':{ "$in" : followings}})
       .populate({ path: "posted_by", select: "userName fullName profile -_id" })
-      .populate({ path: "likes.liked_by", select: "userName fullName -_id" })
+      .populate({ path: "likes.liked_by", select: "userName fullName" })
       .select(["-images.public_id", "-images._id"])
-      .sort({ _id: -1 }).limit(LIMIT).skip(start_index);
+      .sort({ _id: -1 }).limit(LIMIT).skip(start_index).lean();
     const pages = Math.ceil(total / LIMIT)
     
+    posts = posts.map(post=>{
+      const liked = post.likes.some((e)=> String(e.liked_by._id) == req.userId)
+      post.liked = liked
+      return post
+    })
+
     res.status(200).json({posts,pages,current_page:page});
   } catch (error) {
     console.log(error);
@@ -99,19 +104,19 @@ const deletePost = async (req, res) => {
 const likeControl = async (req, res) => {
   const { postId } = req.body;
   try {
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId)
+    .populate({ path: "likes.liked_by", select: "userName fullName" });
 
-    const exist = post.likes.find((e) => e.liked_by == req.userId);
+    const exist = post.likes.find((e) => e.liked_by._id == req.userId);
 
     if (exist) {
-      post.likes = post.likes.filter((e) => e.liked_by != req.userId);
-      await post.save();
-      return res.status(200).json({ success: "Unliked" });
+      post.likes = post.likes.filter((e) => e.liked_by._id != req.userId);
+    }else{
+      post.likes.push({ liked_by: req.userId });
     }
 
-    post.likes.push({ liked_by: req.userId });
     await post.save();
-    return res.status(200).json({ success: "Liked" });
+    return res.status(200).json({id : postId ,likes : post.likes });
   } catch (error) {
     console.log(error);
   }
