@@ -58,7 +58,8 @@ module.exports = {
       borderPrimary : "#DBDBDB",
       borderActive : "#A8A8A8",
       search : "#EFEFEF",
-      danger : "#FF0000"
+      danger : "#FF0000",
+      slate : "#f1f5f9" ,
     }
   },
   plugins: [],

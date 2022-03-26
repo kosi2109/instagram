@@ -4,8 +4,8 @@ const cloudinary = require("../config/cloudinary.config");
 
 const getPosts = async (req, res) => {
   const { page } = req.query;
-  const LIMIT = 1
-  const start_index = ( Number(page) - 1) * LIMIT
+  const LIMIT = 20;
+  const start_index = ( Number(page) - 1) * LIMIT ;
   try {
     const {followings} = await User.findById(req.userId).select("followings -_id")
     followings.push(req.userId)

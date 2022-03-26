@@ -1,6 +1,6 @@
 import { CREATE_POST, END_LOADING, FETCH_POST, START_LOADING, DELETE_POST, LIKE_POST, COMMENT_POST, COMMENT_DELETE } from "../constants"
 
-export default (state = {posts: [],loading:false,current_page:1,pages:1}, action) => {
+export default (state = {posts: [],loading:false,current_page:1,pages:2}, action) => {
     
     switch (action.type){  
         case START_LOADING:
