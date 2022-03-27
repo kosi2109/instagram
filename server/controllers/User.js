@@ -32,7 +32,7 @@ const login = async (req, res) => {
       fullName: user.fullName,
       phone: user.phone,
       gender: user.gender,
-      profile_url : user.profile.url
+      profile_url : user?.profile?.url
     });
   } else {
     return res.status(401).json({
@@ -55,9 +55,19 @@ const logout = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
-  const users = await User.find({});
-  return res.status(200).json(users);
+const getUsersBySearch = async (req, res) => {
+  const {keyword} = req.query;
+  try {
+    const userName = new RegExp(keyword, "i");
+    const users = await User.find({userName});
+    const exit = users.findIndex((user)=> user._id == req.userId)
+    if (exit !== -1){
+      users.splice(exit,1)
+    }
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const createUser = async (req, res) => {
@@ -298,8 +308,12 @@ const uploadProfile = async (req,res)=>{
   }
 }
 
+
+
+
+
 module.exports = {
-  getUsers,
+  getUsersBySearch,
   createUser,
   login,
   logout,

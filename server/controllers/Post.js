@@ -67,11 +67,11 @@ const getPost = async (req, res) => {
   const { id } = req.params;
   try {
     const post = await Post.findById(id)
-      .populate("posted_by", ["userName", "fullName"])
+      .populate("posted_by", ["userName", "fullName" , "profile"])
       .populate({ path: "likes.liked_by", select: "userName fullName -_id" })
       .populate({
         path: "comment.comment_by",
-        select: "userName fullName -_id",
+        select: "userName fullName profile -_id",
       });
     return res.status(200).json(post);
   } catch (error) {

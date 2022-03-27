@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getUsers,
+  getUsersBySearch,
   createUser,
   login,
   logout,
@@ -20,9 +20,9 @@ const { auth, validated } = require("../middleware/auth");
 const upload = require("../config/multer");
 
 
-// router.get("/", getUsers);
 
 // auth
+router.get("/search", getUsersBySearch);
 router.get("/:userName",auth, getUserProfile);
 router.post("/register", createUser);
 router.post(
