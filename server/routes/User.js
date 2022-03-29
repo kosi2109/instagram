@@ -12,18 +12,22 @@ const {
   changeUserInfo,
   followControl,
   changePassword,
-  uploadProfile
+  uploadProfile,
+  getFollowers,
+  getFollowings
 } = require("../controllers/User");
 const { body } = require("express-validator");
 const router = express.Router();
 const { auth, validated } = require("../middleware/auth");
 const upload = require("../config/multer");
 
-
+// follower and following
+router.post("/follow-control",auth,followControl);
+router.get("/followers/:userName",auth,getFollowers);
+router.get("/followings/:userName",auth,getFollowings);
 
 // auth
 router.get("/search", getUsersBySearch);
-router.get("/:userName",auth, getUserProfile);
 router.post("/register", createUser);
 router.post(
   "/check",
@@ -44,9 +48,7 @@ router.patch("/change/user-info",auth,changeUserInfo);
 router.post("/change/password",auth,changePassword);
 router.post('/change/profile-image',auth,upload.single('profile'),uploadProfile);
 
-// follower and following
-router.post("/follow-control",auth,followControl);
 
-
+router.get("/:userName",auth, getUserProfile);
 
 module.exports = router;

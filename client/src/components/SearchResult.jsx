@@ -1,12 +1,11 @@
 import React, { useRef } from "react";
 import { useOutsideAlerter } from "../utils/clickOutside";
 import Friend from "./Friend";
-
-function SearchResult({ setSearchActive }) {
-  const res = false;
+import {TailSpin} from "react-loader-spinner"
+function SearchResult({ setSearchActive, users ,loading }) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setSearchActive);
-
+  console.log(loading);
   return (
     <div
       ref={wrapperRef}
@@ -27,8 +26,22 @@ function SearchResult({ setSearchActive }) {
           borderColor: "transparent transparent #FFFFFF transparent",
         }}
       ></div>
-      {res ? (
-        <Friend />
+      {users?.length > 0 ? (
+        <div
+          className="relative bg-secondary rounded-sm w-full h-full mt-1 p-3 shadow-xl rounded-md overflow-auto"
+          style={{
+            zIndex: "1",
+          }}
+        >
+          {loading ? 
+            <div className="flex justify-center items-center w-full h-16 px-3 py-2">
+              <TailSpin width={20} />
+            </div> : users?.map((user,index)=>(
+
+              <Friend user={user} key={index} followBtn={false} />
+             
+          ))}
+        </div>
       ) : (
         <div
           className="relative bg-secondary rounded-sm w-full h-full mt-1 p-3 shadow-xl rounded-md"

@@ -42,10 +42,12 @@ export const getProfile = (userName) => API.get(`/users/${userName}`);
 export const changeUserInfo = (form) => API.patch(`/users/change/user-info`,form);
 export const changePassword = (form) => API.post(`/users/change/password`,form);
 export const changeProfileImage = (form) => API.post(`/users/change/profile-image`,form);
+export const getUsersBySearch = (userName) => API.get(`/users/search?keyword=${userName}`);
 
 // follow & following
 export const followerControl = (userName) => API.post(`/users/follow-control`,userName);
-
+export const getFollowers = (userName) => API.get(`/users/followers/${userName}`);
+export const getFollowings = (userName) => API.get(`/users/followings/${userName}`);
 
 
 

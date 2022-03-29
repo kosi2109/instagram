@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deletePost } from "../actions/post";
+import { SUCCESS } from "../constants";
 import { useOutsideAlerter } from "../utils/clickOutside";
 import Modal from "./Modal";
 
@@ -34,6 +35,8 @@ function PostOption({
 
   const copyUrl = () => {
     navigator.clipboard.writeText(`${window.location.host}/p/${_id}`);
+    setOpenOption(false)
+    dispatch({type : SUCCESS, payload: {success: "Link copied to clipboard."}})
   };
 
   return (

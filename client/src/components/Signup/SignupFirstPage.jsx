@@ -73,7 +73,7 @@ function SignupFirstPage({form,handleChange,nextPage}) {
     dispatch(checkAuth({username:form.username,email:form.email,password:form.password},nextPage))
   }
 
-  const error = useSelector((state) => state.error);
+  const {error} = useSelector((state) => state.error);
   return (
     <>
       <img src={Logo} alt="logo" className="w-150 h-auto py-5" />

@@ -9,6 +9,7 @@ function Comments({ comment, post_id }) {
   const [commentOption, setCommentOption] = useState(false);
   const [commentId, setCommentId] = useState("")
   hideScroll(commentOption);
+  
   return (
     <>
       {commentOption && (
@@ -22,14 +23,19 @@ function Comments({ comment, post_id }) {
         <div className="flex w-full flex-col group" key={index}>
           {/* top */}
           <div className="flex items-start justify-start w-full px-3 py-2">
-            <div className="flex items-start justify-start mr-2 w-2/6">
-              <div className="w-10 h-10 bg-danger rounded-full mr-2"></div>
-              <Link className="font-bold" to={`/${com?.comment_by?.userName}`}>
-                <h5>{com?.comment_by?.userName}</h5>
-              </Link>
+            <div className="flex items-start justify-start mr-2 w-1/6">
+              <div className="w-full h-auto bg-danger rounded-full mr-2">
+              <img
+              src={com?.comment_by?.profile?.url}
+              alt="user-image"
+              className="w-full h-full rounded-full"
+              />
+              </div>
+              
             </div>
-            <div className="w-4/6">
-              <p className="text-clip text-sm">{com?.comment}</p>
+            <div className="w-5/6">
+
+              <p className="text-clip text-sm"><Link className="font-bold" to={`/${com?.comment_by?.userName}`}>{com?.comment_by?.userName}</Link> {com?.comment}</p>
             </div>
           </div>
           {/* btn */}

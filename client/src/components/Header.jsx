@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import SearchResult from "./SearchResult";
 import CreatePost from "./CreatePost";
 import NavBtn from "./NavBtn";
-import { useEffect } from "react";
 import hideScroll from "../utils/hideScroll";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsersBySearch } from "../actions/user";
 
 
 function Header() {
+  const location = useLocation()
   const [searchActive, setSearchActive] = useState(false);
   const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [keyword, setKeyword] = useState("")
+  const dispatch = useDispatch()
   hideScroll(openCreateModal)
 
+  const searchControl = ()=>{
+    setTimeout(()=>{
+      dispatch(getUsersBySearch({userName:keyword}))
+    },1500)
+  }
+
+  useEffect(()=>{
+    setSearchActive(false)
+    setKeyword("")
+  },[location])
+  const {users , loading} = useSelector((state)=> state.user)
   return (
     <>
       <nav
@@ -31,10 +45,14 @@ function Header() {
             type="text"
             className="bg-primary h-9 w-full rounded-md outline-none p-3"
             placeholder="search"
+            value={keyword}
+            name="search"
+            autoComplete="off"
+            onChange={(e)=> {setKeyword(e.target.value);searchControl()}}
             onClick={() => setSearchActive(true)}
           />
           {searchActive ? (
-            <SearchResult setSearchActive={setSearchActive} />
+            <SearchResult setSearchActive={setSearchActive} users={users} loading={loading} />
           ) : (
             ""
           )}

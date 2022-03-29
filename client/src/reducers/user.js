@@ -1,7 +1,11 @@
-import {GET_USER_PROFILE ,EDIT_PROFILE, GET_OWN_PROFILE, FOLLOW_CONTROl } from "../constants";
+import {GET_USER_PROFILE ,EDIT_PROFILE, GET_OWN_PROFILE, FOLLOW_CONTROl ,SEARCH_USER ,USER_LOADING ,USER_LOADING_END, GET_FOLLOWERS, GET_FOLLOWINGS } from "../constants";
 
-export default (state = {user:null}, action)=>{
+export default (state = {user:null,loading:false}, action)=>{
     switch (action.type){
+        case USER_LOADING:
+            return {...state,loading:true}
+        case USER_LOADING_END:
+            return {...state,loading:false}
         case FOLLOW_CONTROl:   
             return {...state,follow:action.payload}
         case GET_OWN_PROFILE:   
@@ -14,6 +18,12 @@ export default (state = {user:null}, action)=>{
                 phone:action.payload.phone,gender:action.payload.gender}
             localStorage.setItem('profile',JSON.stringify(profile))
             return {...state,user:action.payload}
+        case SEARCH_USER:
+            return {...state,users:action.payload}
+        case GET_FOLLOWERS:
+            return {...state,followers:action.payload.followers}
+        case GET_FOLLOWINGS:
+            return {...state,followings:action.payload.followings}
         default:
             return state
     }

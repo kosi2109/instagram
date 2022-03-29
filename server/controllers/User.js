@@ -309,7 +309,39 @@ const uploadProfile = async (req,res)=>{
 }
 
 
+const getFollowers = async (req,res)=>{
+  const {userName} = req.params
+  try {
+    const user = await User.findOne({userName}).select('followers');
+    if (!user) res.status(401).json({error : "User Not found"})
+    let followers = await User.find({_id: {$in : user.followers}}).select("userName fullName profile.url followers followings").lean()
+    followers = await Promise.all(followers.map( async follower =>{
+      const posts = await Post.find({posted_by:follower._id}).limit(3).sort('-_id')
+      follower.posts = posts
+      return follower
+    }))
+    return res.json({followers:followers})
+  } catch (error) {
+    console.log(error);
+  }
+}
 
+const getFollowings = async (req,res)=>{
+  const {userName} = req.params
+  try {
+    const user = await User.findOne({userName}).select('followings')
+    if (!user) res.status(401).json({error : "User Not found"})
+    let followings = await User.find({_id: {$in : user.followings}}).select("userName fullName profile.url followers followings").lean()
+    followings = await Promise.all(followings.map( async following =>{
+      const posts = await Post.find({posted_by:following._id}).limit(3).sort('-_id')
+      following.posts = posts
+      return following
+    }))
+    return res.json({followings:followings})
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 module.exports = {
@@ -325,5 +357,7 @@ module.exports = {
   changeUserInfo,
   followControl,
   changePassword,
-  uploadProfile
+  uploadProfile,
+  getFollowers,
+  getFollowings
 };

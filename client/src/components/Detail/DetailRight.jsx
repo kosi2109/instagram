@@ -20,14 +20,16 @@ function DetailRight({ post, setOpenOption }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(commentPost({ id: post?._id, comment }));
-    setComment("")
+    setComment("");
   };
-
+  console.log(post);
   return (
     <div className="w-2/6 flex flex-col h-full">
       <div className="flex justify-between items-center w-full h-14 px-3 py-2 border-b border-borderPrimary">
         <div className="flex items-center justify-start">
-          <div className="w-10 h-10 bg-primary rounded-full mr-2 bg-danger"></div>
+          <div className="w-10 h-10 rounded-full mr-2">
+          <img src={post?.posted_by?.profile?.url} alt=""  className="w-full h-full rounded-full" />
+          </div>
           <Link to={`/${post?.posted_by.userName}`}>
             <h5>{post?.posted_by.userName}</h5>
           </Link>
@@ -41,19 +43,20 @@ function DetailRight({ post, setOpenOption }) {
       {/* end header */}
       <div className="flex flex-col h-350 overflow-y-auto ">
         <div className="flex items-start justify-start w-full px-3 py-2">
-          <div className="flex items-start justify-start mr-2 w-2/6">
-            <div className="w-10 h-10 bg-danger rounded-full mr-2"></div>
-            <Link className="font-bold" to={`/${post?.posted_by.userName}`}>
-              <h5>{post?.posted_by.userName}</h5>
-            </Link>
+          <div className="flex items-start justify-start mr-2 w-1/6">
+            <div className="w-full h-auto bg-danger rounded-full mr-2">
+              <img src={post?.posted_by?.profile?.url} alt=""  className="w-full h-full rounded-full" />
+            </div>
           </div>
-          <div className="w-4/6">
-            <p className="text-clip text-sm">{post?.title}</p>
+          <div className="w-5/6">
+            <p className="text-clip text-sm">
+              <Link className="font-bold" to={`/${post?.posted_by.userName}`}>{post?.posted_by.userName} </Link> {post?.title}
+            </p>
           </div>
         </div>
-        {post?.comment && 
-        <Comments comment={post?.comment} post_id={post?._id} />
-        }
+        {post?.comment && (
+          <Comments comment={post?.comment} post_id={post?._id} />
+        )}
       </div>
       {/* end comment container */}
 
