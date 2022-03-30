@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { BsThreeDots } from "react-icons/bs";
+import React, {  useState } from "react";
+import {  useNavigate } from "react-router-dom";
 import { FaRegComment } from "react-icons/fa";
 import { BiBookmark } from "react-icons/bi";
 import { FiSend } from "react-icons/fi";
@@ -10,13 +9,13 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import PostOption from "./PostOption";
 import hideScroll from "../utils/hideScroll";
-import { useCheckAuth, useCheckOwner, useControlLike } from "../customHook/hooks";
-import { useDispatch, useSelector } from "react-redux";
+import {  useCheckOwner } from "../customHook/hooks";
+import { useDispatch } from "react-redux";
 import { likePost } from "../actions/post";
+import ProfileHeader from "./Detail/ProfileHeader";
 
 
 function Post({ post }) {
-  const user = useCheckAuth();
   const [openOption, setOpenOption] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -33,21 +32,7 @@ function Post({ post }) {
     {openOption && <PostOption setOpenOption={setOpenOption} post={post} viewPost={false} isOwner={isOwner} /> } 
     <div className="flex flex-col justify-start w-full bg-secondary md:mb-5 border border-borderPrimary rounded">
       {/* header */}
-      <div className="flex justify-between items-center w-full h-16 px-3 py-2">
-        <div className="flex items-center justify-start">
-          <div className="w-10 h-10 bg-primary rounded-full mr-2 overflow-hidden">
-            <img src={post?.posted_by?.profile ? post?.posted_by?.profile?.url : "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"} alt={post?.posted_by.userName} />
-          </div>
-          <Link to={`/${post?.posted_by.userName}`}>
-            <h5>{post?.posted_by.userName}</h5>
-          </Link>
-        </div>
-        <div>
-          <button onClick={()=> setOpenOption(true)} >
-            <BsThreeDots size={20} />
-          </button>
-        </div>
-      </div>
+      <ProfileHeader post={post} setOpenOption={setOpenOption} />
       {/* end header */}
       {/* img */}
       

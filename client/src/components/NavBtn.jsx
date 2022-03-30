@@ -5,7 +5,6 @@ import { FiSend } from "react-icons/fi";
 import { CgAddR } from "react-icons/cg";
 import { ImCompass2 } from "react-icons/im";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsSearch } from "react-icons/bs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BsBookmark } from "react-icons/bs";
@@ -16,7 +15,6 @@ import { logout } from "../actions/auth";
 import { useOutsideAlerter } from "../utils/clickOutside";
 
 function NavBtn({ size, setOpenCreateModal }) {
-  const [nav, setNav] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);
   const settingRef = useRef(null);
   const navigate = useNavigate();

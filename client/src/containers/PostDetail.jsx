@@ -27,7 +27,7 @@ function PostDetail({ width = "full" }) {
   }, [id, commented , like]);
 
   return (
-    <div className={`bg-secondary flex w-${width} border border-borderPrimary`}>
+    <div className={`bg-secondary flex flex-col w-${width} border border-borderPrimary md:flex-row`}>
       {openOption && (
         <PostOption
           setOpenOption={setOpenOption}
@@ -36,7 +36,7 @@ function PostDetail({ width = "full" }) {
           isOwner={isOwner}
         />
       )}
-      <DetailLeft images={post?.images} />
+      <DetailLeft post={post} setOpenOption={setOpenOption} />
       <DetailRight
         post={post}
         setOpenOption={setOpenOption}

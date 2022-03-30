@@ -43,7 +43,7 @@ function PostOption({
     <Modal>
       <div
         ref={optionRef}
-        className="bg-secondary w-400 text-center flex flex-col rounded-md"
+        className="bg-secondary w-350 md:w-400 text-center flex flex-col rounded-md"
       >
         {deleteWarning ? (
           <>

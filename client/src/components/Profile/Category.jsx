@@ -8,9 +8,9 @@ function Category() {
   return (
     <div className='border-t border-borderPrimary flex justify-center items-center'>
 
-            <Link to="/" className='border-t mx-9 py-3 px-2 flex items-center'><IoAppsSharp className='mr-2'/> Posts</Link>
-            <Link to="/" className='mx-9 py-3 px-2 flex items-center'><BsBookmark className='mr-2'/> Saved</Link>       
-            <Link to="/" className='mx-9 py-3 px-2 flex items-center'><CgProfile className='mr-2'/> Tagged</Link>
+            <Link to="/" className='mx-2 border-t md:mx-9 py-3 px-2 flex items-center'><IoAppsSharp className='mr-2'/> Posts</Link>
+            <Link to="/" className='mx-2 md:mx-9 py-3 px-2 flex items-center'><BsBookmark className='mr-2'/> Saved</Link>       
+            <Link to="/" className='mx-2 md:mx-9 py-3 px-2 flex items-center'><CgProfile className='mr-2'/> Tagged</Link>
         
     </div>
   )

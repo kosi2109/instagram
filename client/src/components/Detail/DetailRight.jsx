@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiBookmark } from "react-icons/bi";
-import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { FiSend, FiSmile } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -9,6 +8,7 @@ import { useControlLike } from "../../customHook/hooks";
 import { commentPost, likePost } from "../../actions/post";
 import { useDispatch } from "react-redux";
 import Comments from "./Comments";
+import ProfileHeader from "./ProfileHeader";
 
 function DetailRight({ post, setOpenOption }) {
   const [comment, setComment] = useState("");
@@ -22,26 +22,13 @@ function DetailRight({ post, setOpenOption }) {
     dispatch(commentPost({ id: post?._id, comment }));
     setComment("");
   };
-  console.log(post);
   return (
-    <div className="w-2/6 flex flex-col h-full">
-      <div className="flex justify-between items-center w-full h-14 px-3 py-2 border-b border-borderPrimary">
-        <div className="flex items-center justify-start">
-          <div className="w-10 h-10 rounded-full mr-2">
-          <img src={post?.posted_by?.profile?.url} alt=""  className="w-full h-full rounded-full" />
-          </div>
-          <Link to={`/${post?.posted_by.userName}`}>
-            <h5>{post?.posted_by.userName}</h5>
-          </Link>
-        </div>
-        <div>
-          <button onClick={() => setOpenOption(true)}>
-            <BsThreeDots size={20} />
-          </button>
-        </div>
+    <div className="w-full md:w-2/6 flex flex-col h-full">
+      <div className="hidden md:block w-full" >
+        <ProfileHeader post={post} setOpenOption={setOpenOption} />
       </div>
       {/* end header */}
-      <div className="flex flex-col h-350 overflow-y-auto ">
+      <div className=" hidden md:block flex flex-col h-350 overflow-y-auto ">
         <div className="flex items-start justify-start w-full px-3 py-2">
           <div className="flex items-start justify-start mr-2 w-1/6">
             <div className="w-full h-auto bg-danger rounded-full mr-2">
@@ -110,7 +97,7 @@ function DetailRight({ post, setOpenOption }) {
           name="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="w-4/6 outline-none border-none"
+          className="w-4/6 h-8 outline-none border-none"
         />
         <button className="w-1/6 text-btnPrimary">Post</button>
       </form>

@@ -43,8 +43,8 @@ function Profile() {
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="flex h-200">
+    <div className="min-h-screen ">
+      <div className="flex h-200 w-full">
         <ProfilePic profile={user?.profile?.url} />
         <ProfileDetail
           userName={user?.userName}
